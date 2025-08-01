@@ -1,5 +1,6 @@
 import { createSignal } from 'solid-js'
 import DashboardWidget from '../DashboardWidget'
+import styles from './WeatherWidget.module.css'
 
 
 interface WeatherWidgetProps {
@@ -21,24 +22,24 @@ export default function WeatherWidget(props: WeatherWidgetProps) {
 
   return (
     <DashboardWidget {...props}>
-      <div class="text-center space-y-3">
-        <div class="text-4xl mb-2">{weather().icon}</div>
-        <div>
-          <div class="text-2xl font-bold text-secondary-900">
+      <div class={styles.container}>
+        <div class={styles.weatherIcon}>{weather().icon}</div>
+        <div class={styles.temperatureContainer}>
+          <div class={styles.temperature}>
             {weather().temperature}°F
           </div>
-          <div class="text-sm text-secondary-600">{weather().condition}</div>
-          <div class="text-xs text-secondary-500">{weather().location}</div>
+          <div class={styles.condition}>{weather().condition}</div>
+          <div class={styles.location}>{weather().location}</div>
         </div>
         
-        <div class="flex justify-between text-xs text-secondary-600 mt-4 pt-3 border-t border-secondary-100">
-          <div>
-            <div class="font-medium">Humidity</div>
-            <div>{weather().humidity}%</div>
+        <div class={styles.detailsContainer}>
+          <div class={styles.detailItem}>
+            <div class={styles.detailLabel}>Humidity</div>
+            <div class={styles.detailValue}>{weather().humidity}%</div>
           </div>
-          <div>
-            <div class="font-medium">Wind</div>
-            <div>{weather().windSpeed} mph</div>
+          <div class={styles.detailItem}>
+            <div class={styles.detailLabel}>Wind</div>
+            <div class={styles.detailValue}>{weather().windSpeed} mph</div>
           </div>
         </div>
       </div>

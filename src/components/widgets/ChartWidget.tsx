@@ -1,5 +1,6 @@
 import { createSignal } from 'solid-js'
 import DashboardWidget from '../DashboardWidget'
+import styles from './ChartWidget.module.css'
 
 interface ChartWidgetProps {
   widgetId: string
@@ -22,31 +23,31 @@ export default function ChartWidget(props: ChartWidgetProps) {
 
   return (
     <DashboardWidget {...props}>
-      <div class="space-y-4">
-        <div class="flex items-center justify-between">
-          <h4 class="text-sm font-medium text-secondary-700">Monthly Analytics</h4>
-          <span class="text-xs text-secondary-500">Last 6 months</span>
+      <div class={styles.container}>
+        <div class={styles.header}>
+          <h4 class={styles.title}>Monthly Analytics</h4>
+          <span class={styles.subtitle}>Last 6 months</span>
         </div>
         
-        <div class="h-32 flex items-end justify-between gap-2">
+        <div class={styles.chartContainer}>
           {data().map((item) => (
-            <div class="flex flex-col items-center gap-2 flex-1">
-              <div class="w-full bg-secondary-200 rounded-t-sm relative overflow-hidden">
+            <div class={styles.chartItem}>
+              <div class={styles.barContainer}>
                 <div
-                  class="bg-primary-500 rounded-t-sm transition-all duration-500"
+                  class={styles.bar}
                   style={{
                     height: `${(item.value / maxValue()) * 100}px`
                   }}
                 />
               </div>
-              <span class="text-xs text-secondary-600">{item.month}</span>
+              <span class={styles.barLabel}>{item.month}</span>
             </div>
           ))}
         </div>
         
-        <div class="text-center">
-          <span class="text-sm text-secondary-600">Average: </span>
-          <span class="font-medium text-secondary-900">
+        <div class={styles.footer}>
+          <span class={styles.footerLabel}>Average: </span>
+          <span class={styles.footerValue}>
             {Math.round(data().reduce((sum, d) => sum + d.value, 0) / data().length)}
           </span>
         </div>

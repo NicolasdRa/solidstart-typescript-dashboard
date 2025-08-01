@@ -1,13 +1,25 @@
+import { Title, Meta } from '@solidjs/meta'
 import DashboardSidebar from '~/components/DashboardSidebar'
 import DashboardHeader from '~/components/DashboardHeader'
 import { useAppContext } from '~/contexts/AppContext'
+import styles from './analytics.module.css'
 
 export default function Analytics() {
   const appContext = useAppContext()
 
 
   return (
-    <div class="min-h-screen bg-secondary-50">
+    <>
+      <Title>Analytics Dashboard - SolidStart Dashboard</Title>
+      <Meta name="description" content="View comprehensive data insights, metrics, and analytics to track your dashboard performance and user engagement." />
+      <Meta property="og:title" content="Analytics Dashboard - SolidStart Dashboard" />
+      <Meta property="og:description" content="View comprehensive data insights, metrics, and analytics to track your dashboard performance and user engagement." />
+      <Meta property="og:type" content="website" />
+      <Meta name="twitter:card" content="summary" />
+      <Meta name="twitter:title" content="Analytics Dashboard - SolidStart Dashboard" />
+      <Meta name="twitter:description" content="View comprehensive data insights, metrics, and analytics to track your dashboard performance and user engagement." />
+      
+      <div class={styles.container}>
       
       <DashboardSidebar 
         currentPage="analytics" 
@@ -18,11 +30,11 @@ export default function Analytics() {
       />
       
       <div 
-        class={`sidebar-transition min-h-screen ${
-          appContext.sidebarCollapsed() ? 'ml-0 lg:ml-16' : 'ml-0 lg:ml-72'
+        class={`${styles.contentArea} ${
+          appContext.sidebarCollapsed() ? styles.contentAreaCollapsed : styles.contentAreaExpanded
         }`}
       >
-        <div class="px-8 py-5 text-stable">
+        <div class={styles.innerContent}>
           <DashboardHeader 
             title="Analytics" 
             subtitle="View your data insights and metrics"
@@ -31,27 +43,28 @@ export default function Analytics() {
             onLayoutChange={() => {}}
           />
 
-          <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
-            <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6">
-              <h3 class="text-lg font-semibold text-secondary-900 mb-4">Page Views</h3>
-              <div class="text-3xl font-bold text-primary-600">125,430</div>
-              <p class="text-sm text-secondary-600 mt-1">+12.5% from last month</p>
+          <div class={styles.analyticsGrid}>
+            <div class={styles.analyticsCard}>
+              <h3 class={styles.cardTitle}>Page Views</h3>
+              <div class={styles.cardValue}>125,430</div>
+              <p class={`${styles.cardChange} ${styles.cardChangePositive}`}>+12.5% from last month</p>
             </div>
 
-            <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6">
-              <h3 class="text-lg font-semibold text-secondary-900 mb-4">Users</h3>
-              <div class="text-3xl font-bold text-primary-600">24,532</div>
-              <p class="text-sm text-secondary-600 mt-1">+8.2% from last month</p>
+            <div class={styles.analyticsCard}>
+              <h3 class={styles.cardTitle}>Users</h3>
+              <div class={styles.cardValue}>24,532</div>
+              <p class={`${styles.cardChange} ${styles.cardChangePositive}`}>+8.2% from last month</p>
             </div>
 
-            <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6">
-              <h3 class="text-lg font-semibold text-secondary-900 mb-4">Conversion Rate</h3>
-              <div class="text-3xl font-bold text-primary-600">3.24%</div>
-              <p class="text-sm text-red-600 mt-1">-2.1% from last month</p>
+            <div class={styles.analyticsCard}>
+              <h3 class={styles.cardTitle}>Conversion Rate</h3>
+              <div class={styles.cardValue}>3.24%</div>
+              <p class={`${styles.cardChange} ${styles.cardChangeNegative}`}>-2.1% from last month</p>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   )
 }

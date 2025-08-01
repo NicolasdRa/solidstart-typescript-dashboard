@@ -2,6 +2,7 @@ import { createSignal, onMount, For, Show, Index, ErrorBoundary } from 'solid-js
 import { Dynamic, Portal } from 'solid-js/web'
 import { useAppContext } from '../contexts/AppContext'
 import DashboardWidget from './DashboardWidget'
+import styles from './DashboardController.module.css'
 import StatsWidget from './widgets/StatsWidget'
 import ActivityWidget from './widgets/ActivityWidget'
 import CalendarWidget from './widgets/CalendarWidget'
@@ -227,20 +228,20 @@ export default function DashboardController(props: DashboardControllerProps) {
   const getLayoutClasses = () => {
     switch (props.layout) {
       case 'list':
-        return 'flex flex-col gap-4'
+        return `${styles.mainContainer} ${styles.layoutList}`
       case 'masonry':
-        return 'grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5'
+        return `${styles.mainContainer} ${styles.layoutMasonry}`
       default:
-        return 'grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5'
+        return `${styles.mainContainer} ${styles.layoutGrid}`
     }
   }
 
   return (
     <>
-      <main class={`pb-5 transition-all duration-300 ${getLayoutClasses()}`}>
+      <main class={getLayoutClasses()}>
         <For each={Array.from(widgets().values())}>
           {(config) => (
-            <div class={`widget-container ${props.layout === 'list' ? 'w-full' : ''}`}>
+            <div class={`${styles.widgetContainer} ${props.layout === 'list' ? styles.widgetContainerList : ''}`}>
               <ErrorBoundary 
                 fallback={(err, reset) => (
                   <DashboardWidget 
@@ -249,13 +250,13 @@ export default function DashboardController(props: DashboardControllerProps) {
                     size={config.size}
                     onClose={() => removeWidget(config.id)}
                   >
-                    <div class="text-center py-8">
-                      <div class="text-4xl mb-3">⚠️</div>
-                      <h3 class="text-lg font-semibold text-red-600 mb-2">Widget Error</h3>
-                      <p class="text-sm text-red-500 mb-4">{err.message}</p>
+                    <div class={styles.errorContainer}>
+                      <div class={styles.errorIcon}>⚠️</div>
+                      <h3 class={styles.errorTitle}>Widget Error</h3>
+                      <p class={styles.errorMessage}>{err.message}</p>
                       <button 
                         onClick={reset}
-                        class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
+                        class={styles.errorButton}
                       >
                         Try Again
                       </button>
@@ -274,35 +275,35 @@ export default function DashboardController(props: DashboardControllerProps) {
       <Show when={appContext.showWidgetModal()}>
         <Portal>
           <div 
-            class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in"
+            class={styles.modalOverlay}
             onClick={(e) => {
               if (e.target === e.currentTarget) {
                 appContext.setShowWidgetModal(false)
               }
             }}
           >
-            <div class="bg-white rounded-2xl w-11/12 max-w-2xl max-h-[80vh] overflow-hidden shadow-2xl animate-slide-in">
-              <div class="flex justify-between items-center p-6 border-b border-secondary-200">
-                <h2 class="text-2xl font-semibold text-secondary-900">Add Widget</h2>
+            <div class={styles.modalContainer}>
+              <div class={styles.modalHeader}>
+                <h2 class={styles.modalTitle}>Add Widget</h2>
                 <button
                   onClick={() => appContext.setShowWidgetModal(false)}
-                  class="text-secondary-400 hover:text-secondary-600 text-2xl transition-colors duration-200"
+                  class={styles.modalCloseButton}
                 >
                   ×
                 </button>
               </div>
-              <div class="p-8 overflow-y-auto max-h-96">
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div class={styles.modalContent}>
+                <div class={styles.widgetGrid}>
                   <Index each={widgetTypes}>
                     {(widget) => (
                       <button
                         onClick={() => addWidget(widget().type)}
-                        class="flex flex-col items-center gap-3 p-6 border-2 border-secondary-200 rounded-xl bg-secondary-50 hover:border-primary-600 hover:bg-white hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
+                        class={styles.widgetTypeButton}
                       >
-                        <div class="text-4xl w-16 h-16 flex items-center justify-center bg-white rounded-xl border border-secondary-200">
+                        <div class={styles.widgetTypeIcon}>
                           {widget().icon}
                         </div>
-                        <span class="text-sm font-medium text-secondary-900">{widget().name}</span>
+                        <span class={styles.widgetTypeName}>{widget().name}</span>
                       </button>
                     )}
                   </Index>

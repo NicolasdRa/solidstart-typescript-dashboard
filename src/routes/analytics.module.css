@@ -1,0 +1,62 @@
+/* Analytics Route CSS Module */
+@import "tailwindcss";
+
+/* Main Container */
+.container {
+  @apply min-h-screen;
+  background-color: var(--bg-secondary);
+}
+
+/* Content Area */
+.contentArea {
+  @apply min-h-screen;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.contentAreaCollapsed {
+  @apply ml-0 lg:ml-16;
+}
+
+.contentAreaExpanded {
+  @apply ml-0 lg:ml-72;
+}
+
+/* Inner Content */
+.innerContent {
+  @apply px-8 py-5;
+  color: var(--text-stable);
+}
+
+/* Analytics Grid */
+.analyticsGrid {
+  @apply grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5;
+}
+
+/* Analytics Card */
+.analyticsCard {
+  @apply rounded-xl shadow-sm p-6;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+}
+
+.cardTitle {
+  @apply text-lg font-semibold mb-4;
+  color: var(--text-primary);
+}
+
+.cardValue {
+  @apply text-3xl font-bold;
+  color: var(--accent-color);
+}
+
+.cardChange {
+  @apply text-sm mt-1;
+}
+
+.cardChangePositive {
+  color: var(--text-secondary);
+}
+
+.cardChangeNegative {
+  color: #dc2626; /* red-600 */
+}

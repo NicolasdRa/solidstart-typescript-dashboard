@@ -1,6 +1,7 @@
 import { useAppContext } from '../contexts/AppContext'
 import { Show } from 'solid-js'
 import { Portal } from 'solid-js/web'
+import styles from './DashboardHeader.module.css'
 
 interface DashboardHeaderProps {
   title: string
@@ -34,96 +35,96 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
   }
 
   return (
-    <div class="mb-8">
+    <div class={styles.container}>
       {/* Header */}
-      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
-        <div class="flex items-center gap-4">
+      <div class={styles.header}>
+        <div class={styles.headerContent}>
           {/* Mobile hamburger menu */}
           <button
             onClick={() => appContext.setSidebarOpen(true)}
-            class="lg:hidden p-2 text-secondary-600 hover:text-secondary-900 hover:bg-secondary-100 rounded-lg transition-all duration-200"
+            class={styles.mobileMenuButton}
             title="Open sidebar"
           >
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class={styles.mobileMenuIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
           
-          <div>
-            <h1 class="text-3xl font-bold text-secondary-900 mb-2">{props.title}</h1>
-            <p class="text-secondary-600">{props.subtitle}</p>
+          <div class={styles.titleSection}>
+            <h1 class={styles.title}>{props.title}</h1>
+            <p class={styles.subtitle}>{props.subtitle}</p>
           </div>
         </div>
         
         <Show when={props.showControls}>
-          <div class="flex flex-wrap items-center gap-3">
+          <div class={styles.controls}>
             {/* Layout Controls */}
-            <div class="flex items-center gap-2 bg-white rounded-lg border border-secondary-200 p-1">
+            <div class={styles.layoutControls}>
               <button
                 onClick={() => handleLayoutChange('grid')}
-                class={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                class={`${styles.layoutButton} ${
                   props.currentLayout === 'grid'
-                    ? 'bg-primary-600 text-white shadow-sm'
-                    : 'text-secondary-600 hover:text-secondary-900 hover:bg-secondary-100'
+                    ? styles.layoutButtonActive
+                    : styles.layoutButtonInactive
                 }`}
                 title="Grid Layout"
               >
-                <span class="block lg:hidden">⊞</span>
-                <span class="hidden lg:block">Grid</span>
+                <span class={styles.layoutButtonText}>⊞</span>
+                <span class={styles.layoutButtonTextDesktop}>Grid</span>
               </button>
               <button
                 onClick={() => handleLayoutChange('list')}
-                class={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                class={`${styles.layoutButton} ${
                   props.currentLayout === 'list'
-                    ? 'bg-primary-600 text-white shadow-sm'
-                    : 'text-secondary-600 hover:text-secondary-900 hover:bg-secondary-100'
+                    ? styles.layoutButtonActive
+                    : styles.layoutButtonInactive
                 }`}
                 title="List Layout"
               >
-                <span class="block lg:hidden">☰</span>
-                <span class="hidden lg:block">List</span>
+                <span class={styles.layoutButtonText}>☰</span>
+                <span class={styles.layoutButtonTextDesktop}>List</span>
               </button>
               <button
                 onClick={() => handleLayoutChange('masonry')}
-                class={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                class={`${styles.layoutButton} ${
                   props.currentLayout === 'masonry'
-                    ? 'bg-primary-600 text-white shadow-sm'
-                    : 'text-secondary-600 hover:text-secondary-900 hover:bg-secondary-100'
+                    ? styles.layoutButtonActive
+                    : styles.layoutButtonInactive
                 }`}
                 title="Masonry Layout"
               >
-                <span class="block lg:hidden">⊡</span>
-                <span class="hidden lg:block">Masonry</span>
+                <span class={styles.layoutButtonText}>⊡</span>
+                <span class={styles.layoutButtonTextDesktop}>Masonry</span>
               </button>
             </div>
 
             {/* Action Buttons */}
-            <div class="flex items-center gap-2">
+            <div class={styles.actionButtons}>
               <button
                 onClick={handleAddWidget}
-                class="px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 flex items-center gap-2"
+                class={styles.addButton}
               >
-                <span class="text-lg">+</span>
-                <span class="hidden sm:inline">Add Widget</span>
+                <span class={styles.addButtonIcon}>+</span>
+                <span class={styles.addButtonText}>Add Widget</span>
               </button>
               
-              <div class="relative group">
-                <button class="p-2 text-secondary-600 hover:text-secondary-900 hover:bg-secondary-100 rounded-lg transition-all duration-200">
-                  <span class="text-xl">⋮</span>
+              <div class={styles.dropdownContainer}>
+                <button class={styles.dropdownTrigger}>
+                  <span class={styles.dropdownIcon}>⋮</span>
                 </button>
                 
                 {/* Dropdown Menu */}
                 <Portal>
-                  <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-secondary-200 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+                  <div class={styles.dropdownMenu}>
                   <button
                     onClick={handleResetLayout}
-                    class="w-full text-left px-4 py-2 text-sm text-secondary-700 hover:bg-secondary-100 transition-colors duration-200"
+                    class={`${styles.dropdownItem} ${styles.dropdownItemDefault}`}
                   >
                     Reset Layout
                   </button>
                   <button
                     onClick={handleClearLayout}
-                    class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200"
+                    class={`${styles.dropdownItem} ${styles.dropdownItemDanger}`}
                   >
                     Clear All Widgets
                   </button>

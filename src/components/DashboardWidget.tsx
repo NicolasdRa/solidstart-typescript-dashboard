@@ -1,5 +1,6 @@
 import { createSignal, Show } from 'solid-js'
 import type { JSX } from 'solid-js'
+import styles from './DashboardWidget.module.css'
 
 interface DashboardWidgetProps {
   widgetId: string
@@ -13,15 +14,15 @@ export default function DashboardWidget(props: DashboardWidgetProps) {
   const [minimized, setMinimized] = createSignal(false)
 
   const getSizeClasses = () => {
-    if (minimized()) return 'col-span-1 row-span-1'
+    if (minimized()) return styles.sizeMinimized
     
     switch (props.size) {
       case 'small':
-        return 'col-span-1 row-span-1'
+        return styles.sizeSmall
       case 'large':
-        return 'col-span-1 lg:col-span-2 row-span-2'
+        return styles.sizeLarge
       default:
-        return 'col-span-1 row-span-1'
+        return styles.sizeMedium
     }
   }
 
@@ -31,32 +32,32 @@ export default function DashboardWidget(props: DashboardWidgetProps) {
 
 
   return (
-    <div class={`bg-white rounded-xl shadow-sm border border-secondary-200 hover:shadow-md transition-all duration-200 ${getSizeClasses()}`}>
+    <div class={`${styles.widget} ${getSizeClasses()}`}>
       {/* Widget Header */}
-      <div class="flex items-center justify-between p-4 border-b border-secondary-100">
-        <h3 class="font-semibold text-secondary-900 truncate">{props.title}</h3>
+      <div class={styles.header}>
+        <h3 class={styles.title}>{props.title}</h3>
         
-        <div class="flex items-center gap-1">
+        <div class={styles.controls}>
           <button
             onClick={toggleMinimize}
-            class="p-1.5 text-secondary-400 hover:text-secondary-600 hover:bg-secondary-100 rounded transition-all duration-200"
+            class={styles.controlButton}
             title={minimized() ? 'Maximize' : 'Minimize'}
           >
-            <span class="text-sm">{minimized() ? '⬜' : '➖'}</span>
+            <span class={styles.buttonIcon}>{minimized() ? '⬜' : '➖'}</span>
           </button>
           <button
             onClick={props.onClose}
-            class="p-1.5 text-secondary-400 hover:text-red-600 hover:bg-red-50 rounded transition-all duration-200"
+            class={styles.closeButton}
             title="Close"
           >
-            <span class="text-sm">✕</span>
+            <span class={styles.buttonIcon}>✕</span>
           </button>
         </div>
       </div>
 
       {/* Widget Content */}
       <Show when={!minimized()}>
-        <div class="p-4">
+        <div class={styles.content}>
           {props.children}
         </div>
       </Show>

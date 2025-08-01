@@ -1,0 +1,170 @@
+/* ModelViewerWidget CSS Module */
+@import "tailwindcss";
+
+/* Container */
+.container {
+  @apply space-y-4;
+}
+
+/* Error Boundary Fallback */
+.errorFallback {
+  @apply text-center py-8;
+}
+
+.errorIcon {
+  @apply text-4xl mb-3;
+}
+
+.errorTitle {
+  @apply text-lg font-semibold mb-2;
+  color: #dc2626; /* red-600 */
+}
+
+.errorMessage {
+  @apply text-sm mb-4;
+  color: #ef4444; /* red-500 */
+}
+
+.errorActions {
+  @apply space-y-2;
+}
+
+.retryButton {
+  @apply block w-full px-4 py-2 rounded-lg transition-colors duration-200;
+  background-color: #dc2626; /* red-600 */
+  color: white;
+}
+
+.retryButton:hover {
+  background-color: #b91c1c; /* red-700 */
+}
+
+.errorHint {
+  @apply text-xs;
+  color: var(--text-muted);
+}
+
+/* Model Info */
+.modelInfo {
+  @apply text-center;
+}
+
+.modelName {
+  @apply font-semibold;
+  color: var(--text-primary);
+}
+
+.modelDescription {
+  @apply text-sm mt-1;
+  color: var(--text-secondary);
+}
+
+/* Model Viewer Container */
+.viewerContainer {
+  @apply relative rounded-lg overflow-hidden;
+  background-color: var(--bg-secondary);
+  height: 300px;
+}
+
+/* Loading State */
+.loadingOverlay {
+  @apply absolute inset-0 flex items-center justify-center;
+  background-color: var(--bg-secondary);
+}
+
+.loadingContent {
+  @apply text-center;
+}
+
+.loadingSpinner {
+  @apply animate-spin w-8 h-8 border-2 border-t-transparent rounded-full mx-auto mb-2;
+  border-color: var(--accent-color);
+}
+
+.loadingText {
+  @apply text-sm;
+  color: var(--text-secondary);
+}
+
+/* Error State */
+.errorOverlay {
+  @apply absolute inset-0 flex items-center justify-center;
+  background-color: var(--bg-secondary);
+}
+
+.errorContent {
+  @apply text-center;
+  color: #dc2626; /* red-600 */
+}
+
+.errorOverlayIcon {
+  @apply text-2xl mb-2;
+}
+
+.errorOverlayText {
+  @apply text-sm;
+}
+
+/* Model Viewer */
+.modelViewer {
+  width: 100%;
+  height: 100%;
+}
+
+/* Controls */
+.controls {
+  @apply flex justify-center gap-2;
+}
+
+.controlButton {
+  @apply px-3 py-1 text-xs rounded transition-all duration-200 font-medium;
+}
+
+.controlButtonDisabled {
+  @apply px-3 py-1 text-xs rounded transition-all duration-200 font-medium cursor-not-allowed;
+  background-color: var(--bg-secondary);
+  color: var(--text-muted);
+}
+
+.controlButtonNormal {
+  @apply px-3 py-1 text-xs rounded transition-all duration-200 font-medium hover:shadow-sm active:scale-95;
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+}
+
+.controlButtonNormal:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.controlButtonNormal:active {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.controlButtonActive {
+  @apply px-3 py-1 text-xs rounded transition-all duration-200 font-medium hover:shadow-sm active:scale-95 text-white;
+  background-color: var(--accent-color);
+}
+
+.controlButtonActive:hover {
+  background-color: var(--accent-hover);
+}
+
+.controlButtonActive:active {
+  background-color: var(--accent-hover);
+}
+
+.controlIcon {
+  @apply w-3 h-3;
+}
+
+.controlButtonContent {
+  @apply flex items-center gap-1;
+}
+
+/* Instructions */
+.instructions {
+  @apply text-xs text-center;
+  color: var(--text-muted);
+}

@@ -1,0 +1,162 @@
+/* DashboardHeader CSS Module */
+@import "tailwindcss";
+
+/* Main Container */
+.container {
+  @apply mb-8;
+}
+
+/* Header Section */
+.header {
+  @apply flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6;
+}
+
+.headerContent {
+  @apply flex items-center gap-4;
+}
+
+/* Mobile Menu Button */
+.mobileMenuButton {
+  @apply lg:hidden p-2 rounded-lg transition-all duration-200;
+  color: var(--text-secondary);
+}
+
+.mobileMenuButton:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-tertiary);
+}
+
+.mobileMenuIcon {
+  @apply w-6 h-6;
+}
+
+/* Title Section */
+.titleSection {
+  /* No additional styles needed */
+}
+
+.title {
+  @apply text-3xl font-bold mb-2;
+  color: var(--text-primary);
+}
+
+.subtitle {
+  color: var(--text-secondary);
+}
+
+/* Controls Section */
+.controls {
+  @apply flex flex-wrap items-center gap-3;
+}
+
+/* Layout Controls */
+.layoutControls {
+  @apply flex items-center gap-2 rounded-lg border p-1;
+  background-color: var(--bg-primary);
+  border-color: var(--border-color);
+}
+
+.layoutButton {
+  @apply px-3 py-2 rounded-md text-sm font-medium transition-all duration-200;
+}
+
+.layoutButtonActive {
+  background-color: var(--accent-color);
+  color: white;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.layoutButtonInactive {
+  color: var(--text-secondary);
+}
+
+.layoutButtonInactive:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-tertiary);
+}
+
+.layoutButtonText {
+  @apply block lg:hidden;
+}
+
+.layoutButtonTextDesktop {
+  @apply hidden lg:block;
+}
+
+/* Action Buttons */
+.actionButtons {
+  @apply flex items-center gap-2;
+}
+
+.addButton {
+  @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 flex items-center gap-2;
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.addButton:hover {
+  background-color: var(--accent-hover);
+}
+
+.addButton:focus {
+  --tw-ring-color: var(--accent-color);
+  --tw-ring-opacity: 0.5;
+}
+
+.addButtonIcon {
+  @apply text-lg;
+}
+
+.addButtonText {
+  @apply hidden sm:inline;
+}
+
+/* Dropdown Menu */
+.dropdownContainer {
+  @apply relative;
+}
+
+.dropdownTrigger {
+  @apply p-2 rounded-lg transition-all duration-200;
+  color: var(--text-secondary);
+}
+
+.dropdownTrigger:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-tertiary);
+}
+
+.dropdownIcon {
+  @apply text-xl;
+}
+
+.dropdownMenu {
+  @apply absolute right-0 mt-2 w-48 rounded-lg shadow-lg border py-2 opacity-0 invisible transition-all duration-200 z-10;
+  background-color: var(--bg-primary);
+  border-color: var(--border-color);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.dropdownContainer:hover .dropdownMenu {
+  @apply opacity-100 visible;
+}
+
+.dropdownItem {
+  @apply w-full text-left px-4 py-2 text-sm transition-colors duration-200;
+}
+
+.dropdownItemDefault {
+  color: var(--text-secondary);
+}
+
+.dropdownItemDefault:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.dropdownItemDanger {
+  color: #dc2626; /* red-600 */
+}
+
+.dropdownItemDanger:hover {
+  background-color: #fef2f2; /* red-50 */
+}

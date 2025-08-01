@@ -1,0 +1,144 @@
+/* DashboardController CSS Module */
+@import "tailwindcss";
+
+/* Main Layout Container */
+.mainContainer {
+  @apply pb-5 transition-all duration-300;
+}
+
+/* Layout Types */
+.layoutList {
+  @apply flex flex-col gap-4;
+}
+
+.layoutMasonry {
+  @apply grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5;
+}
+
+.layoutGrid {
+  @apply grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5;
+}
+
+/* Widget Container */
+.widgetContainer {
+  /* Base container styles */
+}
+
+.widgetContainerList {
+  @apply w-full;
+}
+
+/* Error State */
+.errorContainer {
+  @apply text-center py-8;
+}
+
+.errorIcon {
+  @apply text-4xl mb-3;
+}
+
+.errorTitle {
+  @apply text-lg font-semibold mb-2;
+  color: #dc2626; /* red-600 */
+}
+
+.errorMessage {
+  @apply text-sm mb-4;
+  color: #ef4444; /* red-500 */
+}
+
+.errorButton {
+  @apply px-4 py-2 rounded-lg transition-colors duration-200;
+  background-color: #dc2626; /* red-600 */
+  color: white;
+}
+
+.errorButton:hover {
+  background-color: #b91c1c; /* red-700 */
+}
+
+/* Modal Overlay */
+.modalOverlay {
+  @apply fixed inset-0 flex items-center justify-center z-50;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Modal Container */
+.modalContainer {
+  @apply rounded-2xl w-11/12 max-w-2xl max-h-[80vh] overflow-hidden shadow-2xl;
+  background-color: var(--bg-primary);
+  animation: slideIn 0.3s ease-in-out;
+}
+
+/* Modal Header */
+.modalHeader {
+  @apply flex justify-between items-center p-6 border-b;
+  border-color: var(--border-color);
+}
+
+.modalTitle {
+  @apply text-2xl font-semibold;
+  color: var(--text-primary);
+}
+
+.modalCloseButton {
+  @apply text-2xl transition-colors duration-200;
+  color: var(--text-muted);
+}
+
+.modalCloseButton:hover {
+  color: var(--text-secondary);
+}
+
+/* Modal Content */
+.modalContent {
+  @apply p-8 overflow-y-auto max-h-96;
+}
+
+.widgetGrid {
+  @apply grid grid-cols-2 md:grid-cols-3 gap-4;
+}
+
+/* Widget Type Button */
+.widgetTypeButton {
+  @apply flex flex-col items-center gap-3 p-6 border-2 rounded-xl transition-all duration-200;
+  border-color: var(--border-color);
+  background-color: var(--bg-secondary);
+}
+
+.widgetTypeButton:hover {
+  border-color: var(--accent-color);
+  background-color: var(--bg-primary);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  transform: translateY(-4px);
+}
+
+.widgetTypeIcon {
+  @apply text-4xl w-16 h-16 flex items-center justify-center rounded-xl border;
+  background-color: var(--bg-primary);
+  border-color: var(--border-color);
+}
+
+.widgetTypeName {
+  @apply text-sm font-medium;
+  color: var(--text-primary);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { 
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

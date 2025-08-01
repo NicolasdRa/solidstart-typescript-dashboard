@@ -1,5 +1,6 @@
 import { createSignal, onMount } from 'solid-js'
 import DashboardWidget from '../DashboardWidget'
+import styles from './NotesWidget.module.css'
 
 interface NotesWidgetProps {
   widgetId: string
@@ -24,15 +25,15 @@ export default function NotesWidget(props: NotesWidgetProps) {
 
   return (
     <DashboardWidget {...props}>
-      <div class="h-48">
+      <div class={styles.container}>
         <textarea
           value={notes()}
           onInput={(e) => saveNotes(e.currentTarget.value)}
           placeholder="Write your notes here..."
-          class="w-full h-full p-3 border border-secondary-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+          class={styles.textarea}
         />
       </div>
-      <div class="mt-2 text-xs text-secondary-500">
+      <div class={styles.helperText}>
         Notes are automatically saved
       </div>
     </DashboardWidget>

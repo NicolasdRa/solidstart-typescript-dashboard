@@ -2,6 +2,7 @@ import { createEffect, Show } from 'solid-js'
 import { Portal } from 'solid-js/web'
 import { useNavigate } from '@solidjs/router'
 import { useAppContext } from '../contexts/AppContext'
+import styles from './DashboardSidebar.module.css'
 
 interface DashboardSidebarProps {
   currentPage: string
@@ -37,72 +38,70 @@ export default function DashboardSidebar(props: DashboardSidebarProps) {
   ]
 
   return (
-    <div class={`fixed left-0 top-0 h-screen bg-white shadow-lg sidebar-transition z-40 flex flex-col ${
-      // Mobile: full screen when open, hidden when closed
-      // Desktop: 16rem when collapsed, 18rem when expanded
+    <div class={`${styles.sidebar} ${
       props.mobileOpen 
-        ? 'w-full translate-x-0 lg:hidden' 
+        ? styles.sidebarMobileOpen
         : props.collapsed 
-          ? 'w-16 -translate-x-full lg:translate-x-0 border-r border-secondary-200' 
-          : 'w-72 -translate-x-full lg:translate-x-0 border-r border-secondary-200'
+          ? styles.sidebarCollapsed
+          : styles.sidebarExpanded
     }`}>
       {/* Sidebar Header */}
-      <div class="border-b border-secondary-200 sidebar-transition flex-shrink-0 p-4 h-20">
+      <div class={styles.header}>
         {props.mobileOpen ? (
           // Mobile view - full header with close button
-          <div class="flex items-center justify-between h-full lg:hidden">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center text-white text-xl font-bold">
+          <div class={styles.headerMobile}>
+            <div class={styles.headerContent}>
+              <div class={styles.logo}>
                 D
               </div>
               <div>
-                <h1 class="text-xl font-bold text-secondary-900 leading-tight">Dashboard</h1>
-                <p class="text-sm text-secondary-500 leading-tight">Workspace</p>
+                <h1 class={styles.logoText}>Dashboard</h1>
+                <p class={styles.logoSubtext}>Workspace</p>
               </div>
             </div>
             
             <button
               onClick={() => props.onMobileToggle(false)}
-              class="p-2 text-secondary-400 hover:text-secondary-600 hover:bg-secondary-100 rounded-lg transition-all duration-200"
+              class={styles.toggleButton}
               title="Close sidebar"
             >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class={styles.icon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
         ) : props.collapsed ? (
           // Desktop collapsed view - only expand button centered
-          <div class="hidden lg:flex items-center justify-center h-full w-full">
+          <div class={styles.headerCollapsed}>
             <button
               onClick={() => props.onToggle(!props.collapsed)}
-              class="p-2 text-secondary-400 hover:text-secondary-600 hover:bg-secondary-100 rounded-lg transition-all duration-200 items-center justify-center"
+              class={styles.toggleButtonCentered}
               title="Expand sidebar"
             >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class={styles.iconSmall} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
             </button>
           </div>
         ) : (
           // Desktop expanded view - horizontal layout
-          <div class="hidden lg:flex items-center justify-between h-full">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center text-white text-xl font-bold">
+          <div class={styles.headerExpanded}>
+            <div class={styles.headerContent}>
+              <div class={styles.logo}>
                 D
               </div>
               <div>
-                <h1 class="text-xl font-bold text-secondary-900 leading-tight">Dashboard</h1>
-                <p class="text-sm text-secondary-500 leading-tight">Workspace</p>
+                <h1 class={styles.logoText}>Dashboard</h1>
+                <p class={styles.logoSubtext}>Workspace</p>
               </div>
             </div>
             
             <button
               onClick={() => props.onToggle(!props.collapsed)}
-              class="p-2 text-secondary-400 hover:text-secondary-600 hover:bg-secondary-100 rounded-lg transition-all duration-200"
+              class={styles.toggleButton}
               title="Collapse sidebar"
             >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class={styles.icon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
               </svg>
             </button>
@@ -111,8 +110,8 @@ export default function DashboardSidebar(props: DashboardSidebarProps) {
       </div>
 
       {/* Navigation Menu */}
-      <nav class="flex-1 overflow-y-auto overflow-x-hidden sidebar-transition p-4">
-        <ul class="space-y-2">
+      <nav class={styles.nav}>
+        <ul class={styles.navList}>
           {menuItems.map(item => (
             <li>
               <button
@@ -125,27 +124,27 @@ export default function DashboardSidebar(props: DashboardSidebarProps) {
                     navigate(item.path)
                   }
                 }}
-                class={`flex items-center rounded-lg transition-all duration-200 hover:bg-secondary-100 relative group h-12 w-full ${
+                class={`${styles.navButton} ${
                   props.mobileOpen 
-                    ? 'gap-3 px-4' 
+                    ? styles.navButtonMobile
                     : props.collapsed 
-                      ? 'px-0 justify-center' 
-                      : 'gap-3 px-4'
+                      ? styles.navButtonCollapsed
+                      : styles.navButtonExpanded
                 } ${
                   props.currentPage === item.id 
-                    ? 'bg-primary-100 text-primary-700' 
-                    : 'text-secondary-700 hover:text-secondary-900'
+                    ? styles.navButtonActive
+                    : styles.navButtonInactive
                 }`}
               >
-                <span class="text-xl flex-shrink-0 w-6 text-center">{item.icon}</span>
+                <span class={styles.navIcon}>{item.icon}</span>
                 <Show when={props.mobileOpen || !props.collapsed}>
-                  <span class="font-medium truncate min-w-0 flex-1">{item.label}</span>
+                  <span class={styles.navLabel}>{item.label}</span>
                 </Show>
                 
                 {/* Tooltip for collapsed desktop state only */}
                 <Show when={props.collapsed && !props.mobileOpen}>
                   <Portal>
-                    <div class="absolute left-full ml-2 px-2 py-1 bg-secondary-900 text-white text-sm rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50">
+                    <div class={styles.tooltip}>
                       {item.label}
                     </div>
                   </Portal>
@@ -157,27 +156,27 @@ export default function DashboardSidebar(props: DashboardSidebarProps) {
       </nav>
 
       {/* User Section */}
-      <div class="flex-shrink-0 border-t border-secondary-200 bg-white sidebar-transition p-4 h-36">
+      <div class={styles.userSection}>
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
-          class={`w-full flex items-center rounded-lg text-secondary-700 hover:bg-secondary-100 hover:text-secondary-900 transition-all duration-200 mb-3 relative group h-12 overflow-hidden ${
+          class={`${styles.themeButton} ${
             props.mobileOpen 
-              ? 'gap-3 px-4' 
+              ? styles.themeButtonMobile
               : props.collapsed 
-                ? 'px-0 justify-center' 
-                : 'gap-3 px-4'
+                ? styles.themeButtonCollapsed
+                : styles.themeButtonExpanded
           }`}
         >
-          <span class="text-xl flex-shrink-0 w-6 text-center">{appContext.theme() === 'light' ? '🌙' : '☀️'}</span>
+          <span class={styles.themeIcon}>{appContext.theme() === 'light' ? '🌙' : '☀️'}</span>
           <Show when={props.mobileOpen || !props.collapsed}>
-            <span class="font-medium truncate min-w-0 flex-1 text-left">{appContext.theme() === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
+            <span class={styles.themeLabel}>{appContext.theme() === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
           </Show>
           
           {/* Tooltip for collapsed desktop state only */}
           <Show when={props.collapsed && !props.mobileOpen}>
             <Portal>
-              <div class="absolute left-full ml-2 px-2 py-1 bg-secondary-900 text-white text-sm rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50">
+              <div class={styles.tooltip}>
                 {appContext.theme() === 'light' ? 'Dark Mode' : 'Light Mode'}
               </div>
             </Portal>
@@ -185,22 +184,22 @@ export default function DashboardSidebar(props: DashboardSidebarProps) {
         </button>
 
         {/* User Profile */}
-        <div class={`flex items-center rounded-lg h-16 w-full ${
+        <div class={`${styles.userProfile} ${
           props.mobileOpen 
-            ? 'gap-3 px-4 overflow-hidden' 
+            ? styles.userProfileMobile
             : props.collapsed 
-              ? 'px-3 justify-center' 
-              : 'gap-3 px-4 overflow-hidden'
+              ? styles.userProfileCollapsed
+              : styles.userProfileExpanded
         }`}>
-          <div class={`bg-primary-600 rounded-full flex items-center justify-center text-white font-medium flex-shrink-0 ${
-            props.collapsed && !props.mobileOpen ? 'w-8 h-8 text-sm' : 'w-10 h-10'
+          <div class={`${styles.userAvatar} ${
+            props.collapsed && !props.mobileOpen ? styles.userAvatarSmall : styles.userAvatarLarge
           }`}>
             JD
           </div>
           <Show when={props.mobileOpen || !props.collapsed}>
-            <div class="flex-1 min-w-0">
-              <p class="text-sm font-medium text-secondary-900 truncate leading-tight">John Doe</p>
-              <p class="text-xs text-secondary-500 truncate leading-tight">john.doe@example.com</p>
+            <div class={styles.userInfo}>
+              <p class={styles.userName}>John Doe</p>
+              <p class={styles.userEmail}>john.doe@example.com</p>
             </div>
           </Show>
         </div>

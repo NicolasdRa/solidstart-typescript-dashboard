@@ -1,13 +1,25 @@
+import { Title, Meta } from '@solidjs/meta'
 import DashboardSidebar from '~/components/DashboardSidebar'
 import DashboardHeader from '~/components/DashboardHeader'
 import { useAppContext } from '~/contexts/AppContext'
+import styles from './settings.module.css'
 
 export default function Settings() {
   const appContext = useAppContext()
 
 
   return (
-    <div class="min-h-screen bg-secondary-50">
+    <>
+      <Title>Settings - SolidStart Dashboard</Title>
+      <Meta name="description" content="Configure your dashboard settings, manage system preferences, and customize your application experience." />
+      <Meta property="og:title" content="Settings - SolidStart Dashboard" />
+      <Meta property="og:description" content="Configure your dashboard settings, manage system preferences, and customize your application experience." />
+      <Meta property="og:type" content="website" />
+      <Meta name="twitter:card" content="summary" />
+      <Meta name="twitter:title" content="Settings - SolidStart Dashboard" />
+      <Meta name="twitter:description" content="Configure your dashboard settings, manage system preferences, and customize your application experience." />
+      
+      <div class={styles.container}>
       
       <DashboardSidebar 
         currentPage="settings" 
@@ -18,11 +30,11 @@ export default function Settings() {
       />
       
       <div 
-        class={`sidebar-transition min-h-screen ${
-          appContext.sidebarCollapsed() ? 'ml-0 lg:ml-16' : 'ml-0 lg:ml-72'
+        class={`${styles.contentArea} ${
+          appContext.sidebarCollapsed() ? styles.contentAreaCollapsed : styles.contentAreaExpanded
         }`}
       >
-        <div class="px-8 py-5 text-stable">
+        <div class={styles.innerContent}>
           <DashboardHeader 
             title="Settings" 
             subtitle="Configure your application settings"
@@ -31,21 +43,21 @@ export default function Settings() {
             onLayoutChange={() => {}}
           />
 
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-            <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6">
-              <h3 class="text-lg font-semibold text-secondary-900 mb-4">General Settings</h3>
-              <div class="space-y-4">
+          <div class={styles.settingsGrid}>
+            <div class={styles.settingsCard}>
+              <h3 class={styles.cardTitle}>General Settings</h3>
+              <div class={styles.formGroup}>
                 <div>
-                  <label class="block text-sm font-medium text-secondary-700 mb-1">Application Name</label>
+                  <label class={styles.label}>Application Name</label>
                   <input
                     type="text"
                     value="My Dashboard"
-                    class="w-full px-3 py-2 border border-secondary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    class={styles.input}
                   />
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-secondary-700 mb-1">Default Language</label>
-                  <select class="w-full px-3 py-2 border border-secondary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
+                  <label class={styles.label}>Default Language</label>
+                  <select class={styles.select}>
                     <option>English</option>
                     <option>Spanish</option>
                     <option>French</option>
@@ -54,26 +66,27 @@ export default function Settings() {
               </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6">
-              <h3 class="text-lg font-semibold text-secondary-900 mb-4">Advanced Settings</h3>
-              <div class="space-y-4">
-                <label class="flex items-center justify-between">
-                  <span class="text-sm text-secondary-700">Enable developer mode</span>
-                  <input type="checkbox" class="w-4 h-4 text-primary-600 border-secondary-300 rounded focus:ring-primary-500" />
+            <div class={styles.settingsCard}>
+              <h3 class={styles.cardTitle}>Advanced Settings</h3>
+              <div class={styles.checkboxGroup}>
+                <label class={styles.checkboxLabel}>
+                  <span class={styles.checkboxText}>Enable developer mode</span>
+                  <input type="checkbox" class={styles.checkbox} />
                 </label>
-                <label class="flex items-center justify-between">
-                  <span class="text-sm text-secondary-700">Show performance metrics</span>
-                  <input type="checkbox" class="w-4 h-4 text-primary-600 border-secondary-300 rounded focus:ring-primary-500" />
+                <label class={styles.checkboxLabel}>
+                  <span class={styles.checkboxText}>Show performance metrics</span>
+                  <input type="checkbox" class={styles.checkbox} />
                 </label>
-                <label class="flex items-center justify-between">
-                  <span class="text-sm text-secondary-700">Enable experimental features</span>
-                  <input type="checkbox" class="w-4 h-4 text-primary-600 border-secondary-300 rounded focus:ring-primary-500" />
+                <label class={styles.checkboxLabel}>
+                  <span class={styles.checkboxText}>Enable experimental features</span>
+                  <input type="checkbox" class={styles.checkbox} />
                 </label>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   )
 }

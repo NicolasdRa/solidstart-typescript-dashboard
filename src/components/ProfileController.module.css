@@ -1,0 +1,12 @@
+/* ProfileController CSS Module */
+@import "tailwindcss";
+
+/* Main Grid Layout */
+.grid {
+  @apply grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5 pb-5;
+}
+
+/* Profile Info Widget - Full Width */
+.profileInfoContainer {
+  @apply col-span-1 lg:col-span-2 xl:col-span-3;
+}

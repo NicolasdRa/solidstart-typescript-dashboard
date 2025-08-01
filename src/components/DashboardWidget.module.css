@@ -1,0 +1,75 @@
+/* DashboardWidget CSS Module */
+@import "tailwindcss";
+
+/* Widget Container */
+.widget {
+  @apply rounded-xl shadow-sm border transition-all duration-200;
+  background-color: var(--bg-primary);
+  border-color: var(--border-color);
+}
+
+.widget:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+/* Size Classes */
+.sizeMinimized {
+  @apply col-span-1 row-span-1;
+}
+
+.sizeSmall {
+  @apply col-span-1 row-span-1;
+}
+
+.sizeMedium {
+  @apply col-span-1 row-span-1;
+}
+
+.sizeLarge {
+  @apply col-span-1 lg:col-span-2 row-span-2;
+}
+
+/* Widget Header */
+.header {
+  @apply flex items-center justify-between p-4 border-b;
+  border-color: var(--bg-tertiary);
+}
+
+.title {
+  @apply font-semibold truncate;
+  color: var(--text-primary);
+}
+
+.controls {
+  @apply flex items-center gap-1;
+}
+
+/* Control Buttons */
+.controlButton {
+  @apply p-1.5 rounded transition-all duration-200;
+  color: var(--text-muted);
+}
+
+.controlButton:hover {
+  color: var(--text-secondary);
+  background-color: var(--bg-tertiary);
+}
+
+.closeButton {
+  @apply p-1.5 rounded transition-all duration-200;
+  color: var(--text-muted);
+}
+
+.closeButton:hover {
+  color: #dc2626; /* red-600 */
+  background-color: #fef2f2; /* red-50 */
+}
+
+.buttonIcon {
+  @apply text-sm;
+}
+
+/* Widget Content */
+.content {
+  @apply p-4;
+}

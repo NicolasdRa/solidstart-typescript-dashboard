@@ -1,5 +1,6 @@
 import { createSignal, onMount, onCleanup } from 'solid-js'
 import DashboardWidget from '../DashboardWidget'
+import styles from './ClockWidget.module.css'
 
 interface ClockWidgetProps {
   widgetId: string
@@ -44,14 +45,14 @@ export default function ClockWidget(props: ClockWidgetProps) {
 
   return (
     <DashboardWidget {...props}>
-      <div class="text-center space-y-3">
-        <div class="text-3xl font-mono font-bold text-primary-600">
+      <div class={styles.container}>
+        <div class={styles.time}>
           {formatTime(time())}
         </div>
-        <div class="text-sm text-secondary-600">
+        <div class={styles.date}>
           {formatDate(time())}
         </div>
-        <div class="text-xs text-secondary-500">
+        <div class={styles.timezone}>
           Local Time
         </div>
       </div>

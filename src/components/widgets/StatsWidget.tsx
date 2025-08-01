@@ -1,4 +1,5 @@
 import DashboardWidget from '../DashboardWidget'
+import styles from './StatsWidget.module.css'
 
 interface StatsWidgetProps {
   widgetId: string
@@ -17,18 +18,14 @@ export default function StatsWidget(props: StatsWidgetProps) {
 
   return (
     <DashboardWidget {...props}>
-      <div class="space-y-4">
+      <div class={styles.container}>
         {stats.map((stat) => (
-          <div class="flex items-center justify-between p-3 bg-secondary-50 rounded-lg">
-            <div>
-              <p class="text-sm text-secondary-600">{stat.label}</p>
-              <p class="text-xl font-bold text-secondary-900">{stat.value}</p>
+          <div class={styles.statItem}>
+            <div class={styles.statContent}>
+              <p class={styles.statLabel}>{stat.label}</p>
+              <p class={styles.statValue}>{stat.value}</p>
             </div>
-            <div class={`text-sm font-medium ${
-              stat.changeType === 'positive' 
-                ? 'text-green-600' 
-                : 'text-red-600'
-            }`}>
+            <div class={stat.changeType === 'positive' ? styles.changePositive : styles.changeNegative}>
               {stat.change}
             </div>
           </div>

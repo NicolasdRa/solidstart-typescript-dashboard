@@ -1,5 +1,6 @@
 import { onMount, createSignal, ErrorBoundary } from 'solid-js'
 import DashboardWidget from '../DashboardWidget'
+import styles from './ModelViewerWidget.module.css'
 
 interface ModelViewerWidgetProps {
   widgetId: string
@@ -46,49 +47,49 @@ export default function ModelViewerWidget(props: ModelViewerWidgetProps) {
     <DashboardWidget {...props}>
       <ErrorBoundary 
         fallback={(err, reset) => (
-          <div class="text-center py-8">
-            <div class="text-4xl mb-3">🚨</div>
-            <h3 class="text-lg font-semibold text-red-600 mb-2">3D Model Error</h3>
-            <p class="text-sm text-red-500 mb-4">
+          <div class={styles.errorFallback}>
+            <div class={styles.errorIcon}>🚨</div>
+            <h3 class={styles.errorTitle}>3D Model Error</h3>
+            <p class={styles.errorMessage}>
               Failed to load 3D model: {err.message}
             </p>
-            <div class="space-y-2">
+            <div class={styles.errorActions}>
               <button 
                 onClick={reset}
-                class="block w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
+                class={styles.retryButton}
               >
                 Retry Loading
               </button>
-              <p class="text-xs text-secondary-500">
+              <p class={styles.errorHint}>
                 Check your internet connection or try a different model
               </p>
             </div>
           </div>
         )}
       >
-        <div class="space-y-4">
+        <div class={styles.container}>
         {/* Model Info */}
-        <div class="text-center">
-          <h4 class="font-semibold text-secondary-900">{props.modelName}</h4>
-          <p class="text-sm text-secondary-600 mt-1">{props.modelDescription}</p>
+        <div class={styles.modelInfo}>
+          <h4 class={styles.modelName}>{props.modelName}</h4>
+          <p class={styles.modelDescription}>{props.modelDescription}</p>
         </div>
 
         {/* Model Viewer Container */}
-        <div class="relative bg-secondary-50 rounded-lg overflow-hidden" style="height: 300px;">
+        <div class={styles.viewerContainer}>
           {loading() && (
-            <div class="absolute inset-0 flex items-center justify-center bg-secondary-100">
-              <div class="text-center">
-                <div class="animate-spin w-8 h-8 border-2 border-primary-600 border-t-transparent rounded-full mx-auto mb-2"></div>
-                <div class="text-sm text-secondary-600">Loading 3D model...</div>
+            <div class={styles.loadingOverlay}>
+              <div class={styles.loadingContent}>
+                <div class={styles.loadingSpinner}></div>
+                <div class={styles.loadingText}>Loading 3D model...</div>
               </div>
             </div>
           )}
 
           {error() && (
-            <div class="absolute inset-0 flex items-center justify-center bg-secondary-100">
-              <div class="text-center text-red-600">
-                <div class="text-2xl mb-2">⚠️</div>
-                <div class="text-sm">{error()}</div>
+            <div class={styles.errorOverlay}>
+              <div class={styles.errorContent}>
+                <div class={styles.errorOverlayIcon}>⚠️</div>
+                <div class={styles.errorOverlayText}>{error()}</div>
               </div>
             </div>
           )}
@@ -111,24 +112,24 @@ export default function ModelViewerWidget(props: ModelViewerWidgetProps) {
                   el.appendChild(modelViewer)
                 }
               }}
-              style="width: 100%; height: 100%;"
+              class={styles.modelViewer}
             />
           )}
         </div>
 
         {/* Controls */}
-        <div class="flex justify-center gap-2">
+        <div class={styles.controls}>
           <button
             onClick={() => {
               if (modelViewerRef) {
                 (modelViewerRef as any).cameraOrbit = "0deg 75deg 105%"
               }
             }}
-            class={`px-3 py-1 text-xs rounded transition-all duration-200 font-medium ${
+            class={
               loading() || !!error()
-                ? 'bg-secondary-100 text-secondary-400 cursor-not-allowed'
-                : 'bg-secondary-200 hover:bg-secondary-300 active:bg-primary-600 active:text-white hover:shadow-sm active:scale-95 text-secondary-700 hover:text-secondary-900'
-            }`}
+                ? styles.controlButtonDisabled
+                : styles.controlButtonNormal
+            }
             disabled={loading() || !!error()}
           >
             Reset View
@@ -142,26 +143,26 @@ export default function ModelViewerWidget(props: ModelViewerWidgetProps) {
                 setAutoRotate(newRotate)
               }
             }}
-            class={`px-3 py-1 text-xs rounded transition-all duration-200 font-medium ${
+            class={
               loading() || !!error()
-                ? 'bg-secondary-100 text-secondary-400 cursor-not-allowed'
+                ? styles.controlButtonDisabled
                 : autoRotate()
-                ? 'bg-primary-600 hover:bg-primary-700 active:bg-primary-800 text-white hover:shadow-sm active:scale-95'
-                : 'bg-secondary-200 hover:bg-secondary-300 active:bg-secondary-400 hover:shadow-sm active:scale-95 text-secondary-700 hover:text-secondary-900'
-            }`}
+                ? styles.controlButtonActive
+                : styles.controlButtonNormal
+            }
             disabled={loading() || !!error()}
           >
-            <span class="flex items-center gap-1">
+            <span class={styles.controlButtonContent}>
               {autoRotate() ? (
                 <>
-                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                  <svg class={styles.controlIcon} fill="currentColor" viewBox="0 0 24 24">
                     <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
                   </svg>
                   Stop Rotation
                 </>
               ) : (
                 <>
-                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                  <svg class={styles.controlIcon} fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
                   </svg>
                   Auto Rotate
@@ -172,7 +173,7 @@ export default function ModelViewerWidget(props: ModelViewerWidgetProps) {
         </div>
 
         {/* Model Details */}
-        <div class="text-xs text-secondary-500 text-center">
+        <div class={styles.instructions}>
           Click and drag to rotate • Scroll to zoom
         </div>
         </div>

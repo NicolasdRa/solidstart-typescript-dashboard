@@ -1,8 +1,10 @@
 import { createSignal, onMount, ErrorBoundary } from 'solid-js'
+import { Title, Meta } from '@solidjs/meta'
 import DashboardSidebar from "~/components/DashboardSidebar";
 import DashboardHeader from "~/components/DashboardHeader";
 import DashboardController from "~/components/DashboardController";
 import { useAppContext } from "~/contexts/AppContext";
+import styles from './index.module.css';
 
 export default function Index() {
   const appContext = useAppContext()
@@ -28,7 +30,17 @@ export default function Index() {
   }
 
   return (
-    <div class="min-h-screen bg-secondary-50">
+    <>
+      <Title>Dashboard - SolidStart Dashboard</Title>
+      <Meta name="description" content="Modern dashboard with customizable widgets, analytics, and layout options. Built with SolidJS and TailwindCSS." />
+      <Meta property="og:title" content="Dashboard - SolidStart Dashboard" />
+      <Meta property="og:description" content="Modern dashboard with customizable widgets, analytics, and layout options." />
+      <Meta property="og:type" content="website" />
+      <Meta name="twitter:card" content="summary" />
+      <Meta name="twitter:title" content="Dashboard - SolidStart Dashboard" />
+      <Meta name="twitter:description" content="Modern dashboard with customizable widgets, analytics, and layout options." />
+      
+      <div class={styles.container}>
       
       {/* Sidebar Component */}
       <DashboardSidebar 
@@ -40,11 +52,11 @@ export default function Index() {
       />
       
       <div 
-        class={`sidebar-transition min-h-screen ${
-          appContext.sidebarCollapsed() ? 'ml-0 lg:ml-16' : 'ml-0 lg:ml-72'
+        class={`${styles.contentArea} ${
+          appContext.sidebarCollapsed() ? styles.contentAreaCollapsed : styles.contentAreaExpanded
         }`}
       >        
-        <div class="px-8 py-5 overflow-y-auto h-screen text-stable">
+        <div class={styles.innerContent}>
           {/* Dashboard Header Component */}
           <DashboardHeader 
             title="Dashboard" 
@@ -57,20 +69,20 @@ export default function Index() {
           {/* Dashboard Controller handles widgets */}
           <ErrorBoundary 
             fallback={(err, reset) => (
-              <div class="text-center py-12">
-                <div class="text-6xl mb-4">🔧</div>
-                <h2 class="text-2xl font-bold text-red-600 mb-4">Dashboard Error</h2>
-                <p class="text-secondary-600 mb-6">
+              <div class={styles.errorContainer}>
+                <div class={styles.errorIcon}>🔧</div>
+                <h2 class={styles.errorTitle}>Dashboard Error</h2>
+                <p class={styles.errorMessage}>
                   The dashboard encountered an error and couldn't load properly.
                 </p>
-                <div class="space-y-3">
+                <div class={styles.errorDetails}>
                   <button 
                     onClick={reset}
-                    class="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium"
+                    class={styles.errorButton}
                   >
                     Reload Dashboard
                   </button>
-                  <p class="text-sm text-secondary-500">
+                  <p class={styles.errorText}>
                     Error: {err.message}
                   </p>
                 </div>
@@ -83,6 +95,7 @@ export default function Index() {
           </ErrorBoundary>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   )
 }

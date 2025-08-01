@@ -1,5 +1,6 @@
 import { createSignal, Index } from 'solid-js'
 import DashboardWidget from '../DashboardWidget'
+import styles from './CalendarWidget.module.css'
 
 interface CalendarWidgetProps {
   widgetId: string
@@ -38,25 +39,25 @@ export default function CalendarWidget(props: CalendarWidgetProps) {
 
   return (
     <DashboardWidget {...props}>
-      <div class="space-y-4">
+      <div class={styles.container}>
         {/* Calendar Header */}
-        <div class="text-center">
-          <h4 class="text-lg font-semibold text-secondary-900">
+        <div class={styles.header}>
+          <h4 class={styles.monthTitle}>
             {currentDate().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
           </h4>
         </div>
 
         {/* Mini Calendar */}
-        <div class="grid grid-cols-7 gap-1 text-xs">
+        <div class={styles.calendarGrid}>
           <Index each={['S', 'M', 'T', 'W', 'T', 'F', 'S']}>
             {(day) => (
-              <div class="text-center p-1 font-medium text-secondary-600">{day()}</div>
+              <div class={styles.dayHeader}>{day()}</div>
             )}
           </Index>
           
           {/* Empty cells for days before month starts */}
           <Index each={Array.from({ length: getFirstDayOfMonth(currentDate()) })}>
-            {() => <div class="p-1"></div>}
+            {() => <div class={styles.emptyCell}></div>}
           </Index>
           
           {/* Days of the month */}
@@ -65,13 +66,13 @@ export default function CalendarWidget(props: CalendarWidgetProps) {
               const day = index + 1
               return (
                 <div 
-                  class={`p-1 text-center rounded cursor-pointer transition-colors duration-200 ${
+                  class={
                     isToday(day) 
-                      ? 'bg-primary-600 text-white' 
+                      ? styles.dayToday
                       : hasEvent(day)
-                      ? 'bg-primary-100 text-primary-700 font-medium'
-                      : 'hover:bg-secondary-100'
-                  }`}
+                      ? styles.dayWithEvent
+                      : styles.dayCell
+                  }
                 >
                   {day}
                 </div>
@@ -81,16 +82,16 @@ export default function CalendarWidget(props: CalendarWidgetProps) {
         </div>
 
         {/* Upcoming Events */}
-        <div>
-          <h5 class="text-sm font-medium text-secondary-700 mb-2">Upcoming</h5>
-          <div class="space-y-2">
+        <div class={styles.eventsSection}>
+          <h5 class={styles.eventsTitle}>Upcoming</h5>
+          <div class={styles.eventsList}>
             <Index each={events.slice(0, 2)}>
               {(event) => (
-                <div class="flex items-center gap-2 text-xs">
-                  <div class="w-2 h-2 bg-primary-500 rounded-full"></div>
-                  <div class="flex-1">
-                    <div class="font-medium text-secondary-900">{event().title}</div>
-                    <div class="text-secondary-600">{event().time}</div>
+                <div class={styles.eventItem}>
+                  <div class={styles.eventIndicator}></div>
+                  <div class={styles.eventContent}>
+                    <div class={styles.eventTitle}>{event().title}</div>
+                    <div class={styles.eventTime}>{event().time}</div>
                   </div>
                 </div>
               )}

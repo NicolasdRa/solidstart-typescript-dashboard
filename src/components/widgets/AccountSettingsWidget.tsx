@@ -1,4 +1,5 @@
 import { createSignal } from 'solid-js'
+import styles from './AccountSettingsWidget.module.css'
 
 export default function AccountSettingsWidget() {
   const [settings, setSettings] = createSignal({
@@ -14,16 +15,16 @@ export default function AccountSettingsWidget() {
   }
 
   return (
-    <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6">
-      <h3 class="text-lg font-semibold text-secondary-900 mb-4">Account Settings</h3>
+    <div class={styles.container}>
+      <h3 class={styles.title}>Account Settings</h3>
       
-      <div class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium text-secondary-700 mb-1">Language</label>
+      <div class={styles.content}>
+        <div class={styles.fieldGroup}>
+          <label class={styles.fieldLabel}>Language</label>
           <select 
             value={settings().language}
             onChange={(e) => setSettings(prev => ({ ...prev, language: e.currentTarget.value }))}
-            class="w-full px-3 py-2 border border-secondary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            class={styles.fieldSelect}
           >
             <option value="en">English</option>
             <option value="es">Spanish</option>
@@ -32,12 +33,12 @@ export default function AccountSettingsWidget() {
           </select>
         </div>
 
-        <div>
-          <label class="block text-sm font-medium text-secondary-700 mb-1">Timezone</label>
+        <div class={styles.fieldGroup}>
+          <label class={styles.fieldLabel}>Timezone</label>
           <select 
             value={settings().timezone}
             onChange={(e) => setSettings(prev => ({ ...prev, timezone: e.currentTarget.value }))}
-            class="w-full px-3 py-2 border border-secondary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            class={styles.fieldSelect}
           >
             <option value="America/New_York">Eastern Time</option>
             <option value="America/Chicago">Central Time</option>
@@ -46,41 +47,41 @@ export default function AccountSettingsWidget() {
           </select>
         </div>
 
-        <div class="space-y-3">
-          <h4 class="text-sm font-medium text-secondary-700">Notifications</h4>
+        <div class={styles.notificationsSection}>
+          <h4 class={styles.sectionTitle}>Notifications</h4>
           
-          <label class="flex items-center justify-between">
-            <span class="text-sm text-secondary-600">Email notifications</span>
+          <label class={styles.toggleLabel}>
+            <span class={styles.toggleText}>Email notifications</span>
             <input 
               type="checkbox"
               checked={settings().emailNotifications}
               onChange={() => handleToggle('emailNotifications')}
-              class="w-4 h-4 text-primary-600 border-secondary-300 rounded focus:ring-primary-500"
+              class={styles.toggleCheckbox}
             />
           </label>
 
-          <label class="flex items-center justify-between">
-            <span class="text-sm text-secondary-600">Push notifications</span>
+          <label class={styles.toggleLabel}>
+            <span class={styles.toggleText}>Push notifications</span>
             <input 
               type="checkbox"
               checked={settings().pushNotifications}
               onChange={() => handleToggle('pushNotifications')}
-              class="w-4 h-4 text-primary-600 border-secondary-300 rounded focus:ring-primary-500"
+              class={styles.toggleCheckbox}
             />
           </label>
 
-          <label class="flex items-center justify-between">
-            <span class="text-sm text-secondary-600">Marketing emails</span>
+          <label class={styles.toggleLabel}>
+            <span class={styles.toggleText}>Marketing emails</span>
             <input 
               type="checkbox"
               checked={settings().marketingEmails}
               onChange={() => handleToggle('marketingEmails')}
-              class="w-4 h-4 text-primary-600 border-secondary-300 rounded focus:ring-primary-500"
+              class={styles.toggleCheckbox}
             />
           </label>
         </div>
 
-        <button class="w-full px-4 py-2 bg-primary-600 text-white hover:bg-primary-700 rounded-lg font-medium transition-colors duration-200">
+        <button class={styles.saveButton}>
           Save Settings
         </button>
       </div>

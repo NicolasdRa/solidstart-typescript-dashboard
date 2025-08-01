@@ -1,4 +1,5 @@
 import DashboardWidget from '../DashboardWidget'
+import styles from './ActivityWidget.module.css'
 
 interface ActivityWidgetProps {
   widgetId: string
@@ -18,20 +19,20 @@ export default function ActivityWidget(props: ActivityWidgetProps) {
 
   return (
     <DashboardWidget {...props}>
-      <div class="space-y-3 max-h-64 overflow-y-auto">
+      <div class={styles.container}>
         {activities.map((activity) => (
-          <div class="flex items-start gap-3 p-2 hover:bg-secondary-50 rounded-lg transition-colors duration-200">
-            <div class="w-8 h-8 flex items-center justify-center bg-secondary-100 rounded-full text-sm flex-shrink-0">
+          <div class={styles.activityItem}>
+            <div class={styles.activityIcon}>
               {activity.icon}
             </div>
-            <div class="flex-1 min-w-0">
-              <div class="text-sm font-medium text-secondary-900">
+            <div class={styles.activityContent}>
+              <div class={styles.activityAction}>
                 {activity.action}
               </div>
-              <div class="text-xs text-secondary-600">
+              <div class={styles.activityUser}>
                 by {activity.user}
               </div>
-              <div class="text-xs text-secondary-500">
+              <div class={styles.activityTime}>
                 {activity.time}
               </div>
             </div>

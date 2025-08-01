@@ -1,8 +1,10 @@
 import { onMount, ErrorBoundary } from 'solid-js'
+import { Title, Meta } from '@solidjs/meta'
 import DashboardSidebar from '~/components/DashboardSidebar'
 import DashboardHeader from '~/components/DashboardHeader'
 import ProfileController from '~/components/ProfileController'
 import { useAppContext } from '~/contexts/AppContext'
+import styles from './profile.module.css'
 
 export default function Profile() {
   const appContext = useAppContext()
@@ -13,7 +15,17 @@ export default function Profile() {
 
 
   return (
-    <div class="min-h-screen bg-secondary-50">
+    <>
+      <Title>Profile Settings - SolidStart Dashboard</Title>
+      <Meta name="description" content="Manage your profile settings, account preferences, and security options in your dashboard." />
+      <Meta property="og:title" content="Profile Settings - SolidStart Dashboard" />
+      <Meta property="og:description" content="Manage your profile settings, account preferences, and security options." />
+      <Meta property="og:type" content="website" />
+      <Meta name="twitter:card" content="summary" />
+      <Meta name="twitter:title" content="Profile Settings - SolidStart Dashboard" />
+      <Meta name="twitter:description" content="Manage your profile settings, account preferences, and security options." />
+      
+      <div class={styles.container}>
       
       {/* Sidebar Component */}
       <DashboardSidebar 
@@ -25,11 +37,11 @@ export default function Profile() {
       />
       
       <div 
-        class={`sidebar-transition min-h-screen ${
-          appContext.sidebarCollapsed() ? 'ml-0 lg:ml-16' : 'ml-0 lg:ml-72'
+        class={`${styles.contentArea} ${
+          appContext.sidebarCollapsed() ? styles.contentAreaCollapsed : styles.contentAreaExpanded
         }`}
       >        
-        <div class="px-8 py-5 overflow-y-auto h-screen text-stable">
+        <div class={styles.innerContent}>
           {/* Profile Header Component */}
           <DashboardHeader 
             title="Profile Settings" 
@@ -42,15 +54,15 @@ export default function Profile() {
           {/* Profile Controller handles profile widgets */}
           <ErrorBoundary 
             fallback={(_, reset) => (
-              <div class="text-center py-12">
-                <div class="text-5xl mb-4">👤</div>
-                <h2 class="text-xl font-bold text-red-600 mb-4">Profile Error</h2>
-                <p class="text-secondary-600 mb-6">
+              <div class={styles.errorContainer}>
+                <div class={styles.errorIcon}>👤</div>
+                <h2 class={styles.errorTitle}>Profile Error</h2>
+                <p class={styles.errorMessage}>
                   Unable to load profile information.
                 </p>
                 <button 
                   onClick={reset}
-                  class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
+                  class={styles.errorButton}
                 >
                   Retry
                 </button>
@@ -61,6 +73,7 @@ export default function Profile() {
           </ErrorBoundary>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   )
 }
