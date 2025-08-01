@@ -9,7 +9,6 @@
 
 /* Main Container */
 .container {
-  @apply h-screen;
   background-color: var(--bg-secondary);
   /* Prevent layout shifts during hydration and navigation */
   contain: layout style;
@@ -17,25 +16,38 @@
   display: grid;
   grid-template-columns: var(--sidebar-width-expanded) 1fr;
   grid-template-areas: "sidebar content";
-  grid-template-rows: 100vh;
-  /* Ensure full viewport width */
-  width: 100vw;
-  min-width: 100vw;
+  /* Dynamic height based on viewport */
+  height: 100vh;
+  min-height: 100vh;
+  /* Ensure full available width */
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
   /* Force layout stability */
   will-change: auto;
   backface-visibility: hidden;
 }
 
+/* Adaptive height for non-fullscreen scenarios */
+@media (min-width: 769px) {
+  .container {
+    /* Use dynamic viewport height that adapts to window size */
+    height: 100vh;
+    min-height: 100vh;
+    max-height: 100vh;
+  }
+}
+
 .containerCollapsed {
   grid-template-columns: var(--sidebar-width-collapsed) 1fr;
-  grid-template-rows: 100vh;
+  grid-template-rows: 1fr;
   transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .containerExpanded {
   grid-template-columns: var(--sidebar-width-expanded) 1fr;
-  grid-template-rows: 100vh;
+  grid-template-rows: 1fr;
   transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

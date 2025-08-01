@@ -6,9 +6,9 @@
   @apply shadow-lg z-40 flex flex-col;
   background-color: var(--bg-primary);
   grid-area: sidebar;
-  /* Ensure stable height */
-  height: 100vh;
-  min-height: 100vh;
+  /* Ensure stable height that adapts to container */
+  height: 100%;
+  min-height: 100%;
   /* Prevent layout shifts during hydration */
   contain: layout style;
   /* Force stable positioning */
@@ -17,6 +17,19 @@
   will-change: auto;
   backface-visibility: hidden;
   transform: translateZ(0);
+  /* Prevent flex shrinking */
+  flex-shrink: 0;
+}
+
+/* Desktop specific - ensure sidebar fills parent container height */
+@media (min-width: 769px) {
+  .sidebar {
+    height: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    /* Ensure stable grid positioning */
+    align-self: stretch;
+  }
 }
 
 /* Mobile behavior */
@@ -25,6 +38,7 @@
     @apply fixed left-0 top-0;
     height: 100vh !important;
     min-height: 100vh !important;
+    max-height: 100vh !important;
     grid-area: none;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -38,16 +52,16 @@
   @apply border-r;
   border-color: var(--border-color);
   /* Maintain stable height during state changes */
-  height: 100vh;
-  min-height: 100vh;
+  height: 100%;
+  min-height: 100%;
 }
 
 .sidebarExpanded {
   @apply border-r;
   border-color: var(--border-color);
   /* Maintain stable height during state changes */
-  height: 100vh;
-  min-height: 100vh;
+  height: 100%;
+  min-height: 100%;
 }
 
 /* Mobile-specific styles */
