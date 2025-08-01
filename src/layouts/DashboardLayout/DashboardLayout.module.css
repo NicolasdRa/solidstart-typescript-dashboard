@@ -9,41 +9,53 @@
 
 /* Main Container */
 .container {
-  @apply flex h-screen;
+  @apply h-screen;
   background-color: var(--bg-secondary);
   /* Prevent layout shifts during hydration */
   contain: layout style;
+  /* Use CSS Grid for proper layout */
+  display: grid;
+  grid-template-columns: var(--sidebar-width-expanded) 1fr;
+  grid-template-areas: "sidebar content";
+  /* Ensure full viewport width */
+  width: 100vw;
+  min-width: 100vw;
+  overflow-x: hidden;
+}
+
+.containerCollapsed {
+  grid-template-columns: var(--sidebar-width-collapsed) 1fr;
+  transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.containerExpanded {
+  grid-template-columns: var(--sidebar-width-expanded) 1fr;
+  transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Content Area */
 .contentArea {
-  @apply flex-1 flex flex-col;
-  /* Default to expanded state for hydration stability */
-  margin-left: var(--sidebar-width-expanded);
-  /* Smoother transitions with hardware acceleration */
-  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: margin-left;
-  /* Prevent layout recalculation */
-  contain: layout;
-}
-
-.contentAreaCollapsed {
-  margin-left: var(--sidebar-width-collapsed);
-}
-
-.contentAreaExpanded {
-  margin-left: var(--sidebar-width-expanded);
+  @apply flex flex-col min-w-0;
+  grid-area: content;
+  width: 100%;
+  height: 100%;
 }
 
 /* Mobile Adjustments */
 @media (max-width: 768px) {
-  .contentArea,
-  .contentAreaCollapsed,
-  .contentAreaExpanded {
-    margin-left: 0;
-    /* Disable transitions on mobile for better performance */
-    transition: none;
-    will-change: auto;
+  .container,
+  .containerCollapsed,
+  .containerExpanded {
+    /* Stack layout on mobile */
+    display: block;
+    grid-template-columns: none;
+    grid-template-areas: none;
+  }
+  
+  .contentArea {
+    /* Content area takes full width on mobile */
+    @apply w-full;
+    grid-area: none;
   }
 }
 
@@ -52,6 +64,10 @@
   @apply flex-1 p-6 overflow-y-auto;
   /* Prevent content jumping during layout changes */
   contain: layout style;
+  /* Ensure content can expand to full width */
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
 }
 
 @media (max-width: 640px) {
@@ -61,21 +77,16 @@
 }
 
 /* Hydration stability - prevent flash of unstyled content */
-.container:not([data-hydrated]) .contentArea {
+.container:not([data-hydrated]) {
   /* Use stable default during hydration */
-  margin-left: var(--sidebar-width-expanded);
-  transition: none;
+  grid-template-columns: var(--sidebar-width-expanded) 1fr;
 }
 
-/* Loading state to prevent layout shifts */
-@media (prefers-reduced-motion: no-preference) {
-  .contentArea {
-    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-}
-
+/* Responsive behavior */
 @media (prefers-reduced-motion: reduce) {
-  .contentArea {
-    transition: none;
+  .container,
+  .containerCollapsed,
+  .containerExpanded {
+    transition: none !important;
   }
 }

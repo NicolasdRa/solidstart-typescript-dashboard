@@ -4,19 +4,30 @@
 /* Main Layout Container */
 .mainContainer {
   @apply pb-5 transition-all duration-300;
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
 }
 
 /* Layout Types */
 .layoutList {
   @apply flex flex-col gap-4;
+  width: 100%;
+  max-width: none;
 }
 
 .layoutMasonry {
-  @apply grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5;
+  @apply grid gap-5;
+  width: 100%;
+  max-width: none;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
 .layoutGrid {
-  @apply grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5;
+  @apply grid gap-5;
+  width: 100%;
+  max-width: none;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }
 
 /* Widget Container */

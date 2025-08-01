@@ -1,7 +1,7 @@
 import { Show } from 'solid-js'
 import { Portal } from 'solid-js/web'
 import { A } from '@solidjs/router'
-import { useAppContext } from '../../contexts/AppContext'
+import { useAppStore } from '~/stores/appStore'
 import styles from './Sidebar.module.css'
 
 interface DashboardSidebarProps {
@@ -12,11 +12,11 @@ interface DashboardSidebarProps {
 }
 
 export default function DashboardSidebar(props: DashboardSidebarProps) {
-  const appContext = useAppContext()
+  const { state, actions } = useAppStore()
 
   const toggleTheme = () => {
-    const newTheme = appContext.theme === 'light' ? 'dark' : 'light'
-    appContext.setTheme(newTheme)
+    const newTheme = state.theme === 'light' ? 'dark' : 'light'
+    actions.setTheme(newTheme)
   }
 
   const menuItems = [
@@ -153,16 +153,16 @@ export default function DashboardSidebar(props: DashboardSidebarProps) {
             [styles.themeButtonExpanded]: !props.mobileOpen && !props.collapsed
           }}
         >
-          <span class={styles.themeIcon}>{appContext.theme === 'light' ? '🌙' : '☀️'}</span>
+          <span class={styles.themeIcon}>{state.theme === 'light' ? '🌙' : '☀️'}</span>
           <Show when={props.mobileOpen || !props.collapsed}>
-            <span class={styles.themeLabel}>{appContext.theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
+            <span class={styles.themeLabel}>{state.theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
           </Show>
           
           {/* Tooltip for collapsed desktop state only */}
           <Show when={props.collapsed && !props.mobileOpen}>
             <Portal>
               <div class={styles.tooltip}>
-                {appContext.theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+                {state.theme === 'light' ? 'Dark Mode' : 'Light Mode'}
               </div>
             </Portal>
           </Show>

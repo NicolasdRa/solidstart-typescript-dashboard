@@ -1,4 +1,4 @@
-import { useAppContext } from '../../contexts/AppContext'
+import { useAppStore } from '~/stores/appStore'
 import { Show } from 'solid-js'
 import { Portal } from 'solid-js/web'
 import styles from './Header.module.css'
@@ -12,10 +12,10 @@ interface DashboardHeaderProps {
 }
 
 export default function DashboardHeader(props: DashboardHeaderProps) {
-  const appContext = useAppContext()
+  const { state, actions } = useAppStore()
 
   const handleAddWidget = () => {
-    appContext.setShowWidgetModal(true)
+    actions.setShowWidgetModal(true)
   }
 
   const handleLayoutChange = (layout: string) => {
@@ -24,13 +24,13 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
 
   const handleClearLayout = () => {
     if (confirm('Remove all widgets from the dashboard?')) {
-      appContext.clearLayout()
+      actions.clearLayout()
     }
   }
 
   const handleResetLayout = () => {
     if (confirm('Reset dashboard to default layout?')) {
-      appContext.resetLayout()
+      actions.resetLayout()
     }
   }
 
@@ -41,7 +41,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
         <div class={styles.headerContent}>
           {/* Mobile hamburger menu */}
           <button
-            onClick={() => appContext.setSidebarOpen(true)}
+            onClick={() => actions.setSidebarOpen(true)}
             class={styles.mobileMenuButton}
             title="Open sidebar"
           >

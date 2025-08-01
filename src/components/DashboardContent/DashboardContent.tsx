@@ -1,6 +1,6 @@
 import { createSignal, onMount, For, Show, Index, ErrorBoundary } from 'solid-js'
 import { Dynamic, Portal } from 'solid-js/web'
-import { useAppContext } from '../../contexts/AppContext'
+import { useAppStore } from '~/stores/appStore'
 import BaseWidget from '../BaseWidget/BaseWidget'
 import styles from './DashboardContent.module.css'
 import StatsWidget from '../widgets/StatsWidget/StatsWidget'
@@ -19,7 +19,7 @@ interface DashboardContentProps {
 }
 
 export default function DashboardContent(props: DashboardContentProps) {
-  const appContext = useAppContext()
+  const { state, actions } = useAppStore()
   const [widgets, setWidgets] = createSignal<Map<string, WidgetConfig>>(new Map())
   const [widgetIdCounter, setWidgetIdCounter] = createSignal(1)
 
@@ -52,9 +52,9 @@ export default function DashboardContent(props: DashboardContentProps) {
     console.log('Dashboard Content: Initializing widget system...')
     loadSavedWidgets()
     
-    // Register layout action callbacks with context
-    appContext.onClearLayout(() => clearLayout())
-    appContext.onResetLayout(() => resetLayout())
+    // Register layout action callbacks with store
+    actions.onClearLayout(() => clearLayout())
+    actions.onResetLayout(() => resetLayout())
     
     console.log('Dashboard Content: Initialization complete')
   })
@@ -84,7 +84,7 @@ export default function DashboardContent(props: DashboardContentProps) {
       return newMap
     })
     saveWidgets()
-    appContext.setShowWidgetModal(false)
+    actions.setShowWidgetModal(false)
   }
 
   const removeWidget = (widgetId: string) => {
@@ -272,13 +272,13 @@ export default function DashboardContent(props: DashboardContentProps) {
       </main>
 
       {/* Widget Addition Modal */}
-      <Show when={appContext.showWidgetModal()}>
+      <Show when={state.showWidgetModal}>
         <Portal>
           <div 
             class={styles.modalOverlay}
             onClick={(e) => {
               if (e.target === e.currentTarget) {
-                appContext.setShowWidgetModal(false)
+                actions.setShowWidgetModal(false)
               }
             }}
           >
@@ -286,7 +286,7 @@ export default function DashboardContent(props: DashboardContentProps) {
               <div class={styles.modalHeader}>
                 <h2 class={styles.modalTitle}>Add Widget</h2>
                 <button
-                  onClick={() => appContext.setShowWidgetModal(false)}
+                  onClick={() => actions.setShowWidgetModal(false)}
                   class={styles.modalCloseButton}
                 >
                   ×

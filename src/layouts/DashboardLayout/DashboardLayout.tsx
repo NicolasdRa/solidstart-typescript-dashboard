@@ -1,7 +1,7 @@
 import { JSX } from 'solid-js'
 import DashboardSidebar from '~/components/Sidebar/Sidebar'
 import DashboardHeader from '~/components/Header/Header'
-import { useAppContext } from '~/contexts/AppContext'
+import { useAppStore } from '~/stores/appStore'
 import styles from './DashboardLayout.module.css'
 
 interface DashboardLayoutProps {
@@ -14,25 +14,26 @@ interface DashboardLayoutProps {
 }
 
 export default function DashboardLayout(props: DashboardLayoutProps) {
-  const appContext = useAppContext()
+  const { state, actions } = useAppStore()
 
   return (
-    <div class={styles.container} data-hydrated={appContext.isHydrated}>
+    <div 
+      class={styles.container} 
+      data-hydrated={state.isHydrated}
+      classList={{
+        [styles.containerCollapsed]: state.sidebarCollapsed,
+        [styles.containerExpanded]: !state.sidebarCollapsed
+      }}
+    >
       {/* Sidebar Component */}
       <DashboardSidebar 
-        collapsed={appContext.sidebarCollapsed}
-        onToggle={appContext.setSidebarCollapsed}
-        mobileOpen={appContext.sidebarOpen}
-        onMobileToggle={appContext.setSidebarOpen}
+        collapsed={state.sidebarCollapsed}
+        onToggle={actions.setSidebarCollapsed}
+        mobileOpen={state.sidebarOpen}
+        onMobileToggle={actions.setSidebarOpen}
       />
       
-      <div 
-        class={styles.contentArea}
-        classList={{
-          [styles.contentAreaCollapsed]: appContext.sidebarCollapsed,
-          [styles.contentAreaExpanded]: !appContext.sidebarCollapsed
-        }}
-      >        
+      <div class={styles.contentArea}>
         <div class={styles.innerContent}>
           {/* Dashboard Header Component */}
           <DashboardHeader 

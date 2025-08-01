@@ -2,7 +2,7 @@ import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
 import { Suspense, ErrorBoundary } from "solid-js";
 import { MetaProvider, Title, Meta } from "@solidjs/meta";
-import { AppProvider } from "./contexts/AppContext";
+import StoreInitializer from "./components/StoreInitializer";
 import "./app.css";
 
 export default function App() {
@@ -37,9 +37,10 @@ export default function App() {
               </div>
             )}
           >
-            <AppProvider>
+            <>
+              <StoreInitializer />
               <Suspense>{props.children}</Suspense>
-            </AppProvider>
+            </>
           </ErrorBoundary>
         )}
       >
