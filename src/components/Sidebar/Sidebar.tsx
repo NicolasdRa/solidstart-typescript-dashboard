@@ -26,14 +26,25 @@ export default function DashboardSidebar(props: DashboardSidebarProps) {
     { id: 'settings', label: 'Settings', icon: '⚙️', path: '/settings' },
   ]
 
+  // Defensive class calculation to prevent style loss during navigation
+  const getSidebarClasses = () => {
+    const classes = [styles.sidebar]
+    
+    if (props.mobileOpen) {
+      classes.push(styles.sidebarMobileOpen)
+    } else if (props.collapsed) {
+      classes.push(styles.sidebarCollapsed)
+    } else {
+      classes.push(styles.sidebarExpanded)
+    }
+    
+    return classes.join(' ')
+  }
+
   return (
     <div 
-      class={styles.sidebar}
-      classList={{
-        [styles.sidebarMobileOpen]: props.mobileOpen,
-        [styles.sidebarCollapsed]: !props.mobileOpen && props.collapsed,
-        [styles.sidebarExpanded]: !props.mobileOpen && !props.collapsed
-      }}
+      class={getSidebarClasses()}
+      data-sidebar-state={props.mobileOpen ? 'mobile-open' : props.collapsed ? 'collapsed' : 'expanded'}
     >
       {/* Sidebar Header */}
       <div class={styles.header}>
