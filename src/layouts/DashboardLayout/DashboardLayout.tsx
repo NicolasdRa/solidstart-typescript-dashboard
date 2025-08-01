@@ -21,15 +21,15 @@ export default function DashboardLayout(props: DashboardLayoutProps) {
       class={styles.container} 
       data-hydrated={state.isHydrated}
       classList={{
-        [styles.containerCollapsed]: state.sidebarCollapsed,
-        [styles.containerExpanded]: !state.sidebarCollapsed
+        [styles.containerCollapsed]: state.isHydrated && state.sidebarCollapsed,
+        [styles.containerExpanded]: !state.isHydrated || !state.sidebarCollapsed
       }}
     >
       {/* Sidebar Component */}
       <DashboardSidebar 
-        collapsed={state.sidebarCollapsed}
+        collapsed={state.isHydrated ? state.sidebarCollapsed : false}
         onToggle={actions.setSidebarCollapsed}
-        mobileOpen={state.sidebarOpen}
+        mobileOpen={state.isHydrated ? state.sidebarOpen : false}
         onMobileToggle={actions.setSidebarOpen}
       />
       

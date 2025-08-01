@@ -3,17 +3,28 @@
 
 /* Main Container */
 .sidebar {
-  @apply shadow-lg z-40 flex flex-col h-full;
+  @apply shadow-lg z-40 flex flex-col;
   background-color: var(--bg-primary);
   grid-area: sidebar;
+  /* Ensure stable height */
+  height: 100vh;
+  min-height: 100vh;
   /* Prevent layout shifts during hydration */
   contain: layout style;
+  /* Force stable positioning */
+  position: relative;
+  /* Force layout stability during navigation */
+  will-change: auto;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 /* Mobile behavior */
 @media (max-width: 768px) {
   .sidebar {
-    @apply fixed left-0 top-0 h-screen;
+    @apply fixed left-0 top-0;
+    height: 100vh !important;
+    min-height: 100vh !important;
     grid-area: none;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -26,11 +37,17 @@
 .sidebarCollapsed {
   @apply border-r;
   border-color: var(--border-color);
+  /* Maintain stable height during state changes */
+  height: 100vh;
+  min-height: 100vh;
 }
 
 .sidebarExpanded {
   @apply border-r;
   border-color: var(--border-color);
+  /* Maintain stable height during state changes */
+  height: 100vh;
+  min-height: 100vh;
 }
 
 /* Mobile-specific styles */

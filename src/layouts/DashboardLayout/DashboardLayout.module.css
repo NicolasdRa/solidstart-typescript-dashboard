@@ -11,25 +11,31 @@
 .container {
   @apply h-screen;
   background-color: var(--bg-secondary);
-  /* Prevent layout shifts during hydration */
+  /* Prevent layout shifts during hydration and navigation */
   contain: layout style;
   /* Use CSS Grid for proper layout */
   display: grid;
   grid-template-columns: var(--sidebar-width-expanded) 1fr;
   grid-template-areas: "sidebar content";
+  grid-template-rows: 100vh;
   /* Ensure full viewport width */
   width: 100vw;
   min-width: 100vw;
   overflow-x: hidden;
+  /* Force layout stability */
+  will-change: auto;
+  backface-visibility: hidden;
 }
 
 .containerCollapsed {
   grid-template-columns: var(--sidebar-width-collapsed) 1fr;
+  grid-template-rows: 100vh;
   transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .containerExpanded {
   grid-template-columns: var(--sidebar-width-expanded) 1fr;
+  grid-template-rows: 100vh;
   transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
