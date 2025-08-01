@@ -3,7 +3,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   server: {
-    preset: "netlify"
+    preset: process.env.NODE_ENV === "development" ? "node" : "netlify"
   },
   vite: {
     plugins: [tailwindcss()]

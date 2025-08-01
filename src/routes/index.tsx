@@ -1,8 +1,8 @@
-import { createSignal, onMount, ErrorBoundary } from 'solid-js'
-import { Title, Meta } from '@solidjs/meta'
+import { createSignal, onMount } from 'solid-js'
+import SEO from '~/components/SEO/SEO'
+import DashboardErrorBoundary from '~/components/ErrorBoundary/DashboardErrorBoundary'
 import DashboardContent from "~/components/DashboardContent/DashboardContent";
 import DashboardLayout from "~/layouts/DashboardLayout/DashboardLayout";
-import styles from './index.module.css';
 
 export default function Index() {
   const [currentLayout, setCurrentLayout] = createSignal('grid')
@@ -28,14 +28,11 @@ export default function Index() {
 
   return (
     <>
-      <Title>Dashboard - SolidStart Dashboard</Title>
-      <Meta name="description" content="Modern dashboard with customizable widgets, analytics, and layout options. Built with SolidJS and TailwindCSS." />
-      <Meta property="og:title" content="Dashboard - SolidStart Dashboard" />
-      <Meta property="og:description" content="Modern dashboard with customizable widgets, analytics, and layout options." />
-      <Meta property="og:type" content="website" />
-      <Meta name="twitter:card" content="summary" />
-      <Meta name="twitter:title" content="Dashboard - SolidStart Dashboard" />
-      <Meta name="twitter:description" content="Modern dashboard with customizable widgets, analytics, and layout options." />
+      <SEO 
+        title="Dashboard"
+        description="Modern dashboard with customizable widgets, analytics, and layout options. Built with SolidJS and TailwindCSS."
+        path="/"
+      />
       
       <DashboardLayout 
         title="Dashboard"
@@ -44,33 +41,15 @@ export default function Index() {
         currentLayout={currentLayout()}
         onLayoutChange={handleLayoutChange}
       >
-        {/* Dashboard Controller handles widgets */}
-        <ErrorBoundary 
-          fallback={(err, reset) => (
-            <div class={styles.errorContainer}>
-              <div class={styles.errorIcon}>🔧</div>
-              <h2 class={styles.errorTitle}>Dashboard Error</h2>
-              <p class={styles.errorMessage}>
-                The dashboard encountered an error and couldn't load properly.
-              </p>
-              <div class={styles.errorDetails}>
-                <button 
-                  onClick={reset}
-                  class={styles.errorButton}
-                >
-                  Reload Dashboard
-                </button>
-                <p class={styles.errorText}>
-                  Error: {err.message}
-                </p>
-              </div>
-            </div>
-          )}
+        <DashboardErrorBoundary
+          fallbackIcon="🔧"
+          fallbackTitle="Dashboard Error"
+          fallbackMessage="The dashboard encountered an error and couldn't load properly."
         >
           <DashboardContent 
             layout={currentLayout()}
           />
-        </ErrorBoundary>
+        </DashboardErrorBoundary>
       </DashboardLayout>
     </>
   )

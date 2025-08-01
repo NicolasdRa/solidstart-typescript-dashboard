@@ -1,8 +1,8 @@
-import { onMount, ErrorBoundary } from 'solid-js'
-import { Title, Meta } from '@solidjs/meta'
+import { onMount } from 'solid-js'
+import SEO from '~/components/SEO/SEO'
+import DashboardErrorBoundary from '~/components/ErrorBoundary/DashboardErrorBoundary'
 import ProfileContent from '~/components/ProfileContent/ProfileContent'
 import DashboardLayout from '~/layouts/DashboardLayout/DashboardLayout'
-import styles from './profile.module.css'
 
 export default function Profile() {
   onMount(() => {
@@ -11,39 +11,23 @@ export default function Profile() {
 
   return (
     <>
-      <Title>Profile Settings - SolidStart Dashboard</Title>
-      <Meta name="description" content="Manage your profile settings, account preferences, and security options in your dashboard." />
-      <Meta property="og:title" content="Profile Settings - SolidStart Dashboard" />
-      <Meta property="og:description" content="Manage your profile settings, account preferences, and security options." />
-      <Meta property="og:type" content="website" />
-      <Meta name="twitter:card" content="summary" />
-      <Meta name="twitter:title" content="Profile Settings - SolidStart Dashboard" />
-      <Meta name="twitter:description" content="Manage your profile settings, account preferences, and security options." />
+      <SEO 
+        title="Profile Settings"
+        description="Manage your profile settings, account preferences, and security options in your dashboard."
+        path="/profile"
+      />
       
       <DashboardLayout 
         title="Profile Settings"
         subtitle="Manage your account and preferences"
       >
-        {/* Profile Controller handles profile widgets */}
-        <ErrorBoundary 
-          fallback={(_, reset) => (
-            <div class={styles.errorContainer}>
-              <div class={styles.errorIcon}>👤</div>
-              <h2 class={styles.errorTitle}>Profile Error</h2>
-              <p class={styles.errorMessage}>
-                Unable to load profile information.
-              </p>
-              <button 
-                onClick={reset}
-                class={styles.errorButton}
-              >
-                Retry
-              </button>
-            </div>
-          )}
+        <DashboardErrorBoundary
+          fallbackIcon="👤"
+          fallbackTitle="Profile Error"
+          fallbackMessage="Unable to load profile information."
         >
           <ProfileContent />
-        </ErrorBoundary>
+        </DashboardErrorBoundary>
       </DashboardLayout>
     </>
   )

@@ -1,18 +1,15 @@
-import { Title, Meta } from '@solidjs/meta'
+import SEO from '~/components/SEO/SEO'
 import DashboardLayout from '~/layouts/DashboardLayout/DashboardLayout'
 import styles from './analytics.module.css'
 
 export default function Analytics() {
   return (
     <>
-      <Title>Analytics Dashboard - SolidStart Dashboard</Title>
-      <Meta name="description" content="View comprehensive data insights, metrics, and analytics to track your dashboard performance and user engagement." />
-      <Meta property="og:title" content="Analytics Dashboard - SolidStart Dashboard" />
-      <Meta property="og:description" content="View comprehensive data insights, metrics, and analytics to track your dashboard performance and user engagement." />
-      <Meta property="og:type" content="website" />
-      <Meta name="twitter:card" content="summary" />
-      <Meta name="twitter:title" content="Analytics Dashboard - SolidStart Dashboard" />
-      <Meta name="twitter:description" content="View comprehensive data insights, metrics, and analytics to track your dashboard performance and user engagement." />
+      <SEO 
+        title="Analytics Dashboard"
+        description="View comprehensive data insights, metrics, and analytics to track your dashboard performance and user engagement."
+        path="/analytics"
+      />
       
       <DashboardLayout 
         title="Analytics"

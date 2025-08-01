@@ -1,18 +1,15 @@
-import { Title, Meta } from '@solidjs/meta'
+import SEO from '~/components/SEO/SEO'
 import DashboardLayout from '~/layouts/DashboardLayout/DashboardLayout'
 import styles from './settings.module.css'
 
 export default function Settings() {
   return (
     <>
-      <Title>Settings - SolidStart Dashboard</Title>
-      <Meta name="description" content="Configure your dashboard settings, manage system preferences, and customize your application experience." />
-      <Meta property="og:title" content="Settings - SolidStart Dashboard" />
-      <Meta property="og:description" content="Configure your dashboard settings, manage system preferences, and customize your application experience." />
-      <Meta property="og:type" content="website" />
-      <Meta name="twitter:card" content="summary" />
-      <Meta name="twitter:title" content="Settings - SolidStart Dashboard" />
-      <Meta name="twitter:description" content="Configure your dashboard settings, manage system preferences, and customize your application experience." />
+      <SEO 
+        title="Settings"
+        description="Configure your dashboard settings, manage system preferences, and customize your application experience."
+        path="/settings"
+      />
       
       <DashboardLayout 
         title="Settings"
