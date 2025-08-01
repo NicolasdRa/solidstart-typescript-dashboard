@@ -15,7 +15,7 @@ export default function DashboardSidebar(props: DashboardSidebarProps) {
   const appContext = useAppContext()
 
   const toggleTheme = () => {
-    const newTheme = appContext.theme() === 'light' ? 'dark' : 'light'
+    const newTheme = appContext.theme === 'light' ? 'dark' : 'light'
     appContext.setTheme(newTheme)
   }
 
@@ -27,13 +27,14 @@ export default function DashboardSidebar(props: DashboardSidebarProps) {
   ]
 
   return (
-    <div class={`${styles.sidebar} ${
-      props.mobileOpen 
-        ? styles.sidebarMobileOpen
-        : props.collapsed 
-          ? styles.sidebarCollapsed
-          : styles.sidebarExpanded
-    }`}>
+    <div 
+      class={styles.sidebar}
+      classList={{
+        [styles.sidebarMobileOpen]: props.mobileOpen,
+        [styles.sidebarCollapsed]: !props.mobileOpen && props.collapsed,
+        [styles.sidebarExpanded]: !props.mobileOpen && !props.collapsed
+      }}
+    >
       {/* Sidebar Header */}
       <div class={styles.header}>
         {props.mobileOpen ? (
@@ -111,13 +112,12 @@ export default function DashboardSidebar(props: DashboardSidebarProps) {
                     props.onMobileToggle(false)
                   }
                 }}
-                class={`${styles.navButton} ${
-                  props.mobileOpen 
-                    ? styles.navButtonMobile
-                    : props.collapsed 
-                      ? styles.navButtonCollapsed
-                      : styles.navButtonExpanded
-                }`}
+                class={styles.navButton}
+                classList={{
+                  [styles.navButtonMobile]: props.mobileOpen,
+                  [styles.navButtonCollapsed]: !props.mobileOpen && props.collapsed,
+                  [styles.navButtonExpanded]: !props.mobileOpen && !props.collapsed
+                }}
                 activeClass={styles.navButtonActive}
                 inactiveClass={styles.navButtonInactive}
                 end={item.path === '/'}
@@ -146,40 +146,44 @@ export default function DashboardSidebar(props: DashboardSidebarProps) {
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
-          class={`${styles.themeButton} ${
-            props.mobileOpen 
-              ? styles.themeButtonMobile
-              : props.collapsed 
-                ? styles.themeButtonCollapsed
-                : styles.themeButtonExpanded
-          }`}
+          class={styles.themeButton}
+          classList={{
+            [styles.themeButtonMobile]: props.mobileOpen,
+            [styles.themeButtonCollapsed]: !props.mobileOpen && props.collapsed,
+            [styles.themeButtonExpanded]: !props.mobileOpen && !props.collapsed
+          }}
         >
-          <span class={styles.themeIcon}>{appContext.theme() === 'light' ? '🌙' : '☀️'}</span>
+          <span class={styles.themeIcon}>{appContext.theme === 'light' ? '🌙' : '☀️'}</span>
           <Show when={props.mobileOpen || !props.collapsed}>
-            <span class={styles.themeLabel}>{appContext.theme() === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
+            <span class={styles.themeLabel}>{appContext.theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
           </Show>
           
           {/* Tooltip for collapsed desktop state only */}
           <Show when={props.collapsed && !props.mobileOpen}>
             <Portal>
               <div class={styles.tooltip}>
-                {appContext.theme() === 'light' ? 'Dark Mode' : 'Light Mode'}
+                {appContext.theme === 'light' ? 'Dark Mode' : 'Light Mode'}
               </div>
             </Portal>
           </Show>
         </button>
 
         {/* User Profile */}
-        <div class={`${styles.userProfile} ${
-          props.mobileOpen 
-            ? styles.userProfileMobile
-            : props.collapsed 
-              ? styles.userProfileCollapsed
-              : styles.userProfileExpanded
-        }`}>
-          <div class={`${styles.userAvatar} ${
-            props.collapsed && !props.mobileOpen ? styles.userAvatarSmall : styles.userAvatarLarge
-          }`}>
+        <div 
+          class={styles.userProfile}
+          classList={{
+            [styles.userProfileMobile]: props.mobileOpen,
+            [styles.userProfileCollapsed]: !props.mobileOpen && props.collapsed,
+            [styles.userProfileExpanded]: !props.mobileOpen && !props.collapsed
+          }}
+        >
+          <div 
+            class={styles.userAvatar}
+            classList={{
+              [styles.userAvatarSmall]: props.collapsed && !props.mobileOpen,
+              [styles.userAvatarLarge]: !props.collapsed || props.mobileOpen
+            }}
+          >
             JD
           </div>
           <Show when={props.mobileOpen || !props.collapsed}>

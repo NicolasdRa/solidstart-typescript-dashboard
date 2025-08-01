@@ -1,22 +1,23 @@
-import { createContext, useContext, createSignal, onMount } from 'solid-js'
+import { createContext, useContext, createSignal, onMount, createEffect } from 'solid-js'
+import { createStore } from 'solid-js/store'
 import type { JSX } from 'solid-js'
 
 interface AppContextValue {
   // Sidebar state
-  sidebarCollapsed: () => boolean
+  sidebarCollapsed: boolean
   setSidebarCollapsed: (collapsed: boolean) => void
-  sidebarOpen: () => boolean
+  sidebarOpen: boolean
   setSidebarOpen: (open: boolean) => void
   
   // Theme state
-  theme: () => string
+  theme: string
   setTheme: (theme: string) => void
   
   // Hydration state
-  isHydrated: () => boolean
+  isHydrated: boolean
   
   // Dashboard state
-  showWidgetModal: () => boolean
+  showWidgetModal: boolean
   setShowWidgetModal: (show: boolean) => void
   
   // Dashboard actions
@@ -29,25 +30,27 @@ interface AppContextValue {
 const AppContext = createContext<AppContextValue>()
 
 export function AppProvider(props: { children: JSX.Element }) {
-  // Initialize with SSR-safe defaults that match server rendering
-  const [sidebarCollapsed, setSidebarCollapsed] = createSignal(false)
-  const [sidebarOpen, setSidebarOpen] = createSignal(false)
-  const [theme, setTheme] = createSignal('light')
-  const [showWidgetModal, setShowWidgetModal] = createSignal(false)
-  const [isHydrated, setIsHydrated] = createSignal(typeof window === 'undefined')
+  // Use createStore for better state management
+  const [state, setState] = createStore({
+    sidebarCollapsed: false,
+    sidebarOpen: false,
+    theme: 'light',
+    showWidgetModal: false,
+    isHydrated: false
+  })
 
   // Enhanced sidebar state setter with persistence
   const handleSetSidebarCollapsed = (collapsed: boolean) => {
-    setSidebarCollapsed(collapsed)
-    if (typeof window !== 'undefined') {
+    setState('sidebarCollapsed', collapsed)
+    if (state.isHydrated && typeof window !== 'undefined') {
       localStorage.setItem('sidebarCollapsed', String(collapsed))
     }
   }
 
   // Enhanced theme setter with persistence
   const handleSetTheme = (newTheme: string) => {
-    setTheme(newTheme)
-    if (typeof window !== 'undefined') {
+    setState('theme', newTheme)
+    if (state.isHydrated && typeof window !== 'undefined') {
       localStorage.setItem('dashboardTheme', newTheme)
       document.documentElement.setAttribute('data-theme', newTheme)
     }
@@ -56,19 +59,24 @@ export function AppProvider(props: { children: JSX.Element }) {
   // Initialize state from localStorage after hydration
   onMount(() => {
     if (typeof window !== 'undefined') {
-      // Load saved sidebar state
+      // Load saved states synchronously to prevent flashes
       const savedSidebarState = localStorage.getItem('sidebarCollapsed')
-      if (savedSidebarState !== null) {
-        setSidebarCollapsed(savedSidebarState === 'true')
-      }
-
-      // Load saved theme
       const savedTheme = localStorage.getItem('dashboardTheme') || 'light'
-      setTheme(savedTheme)
+      
+      setState({
+        sidebarCollapsed: savedSidebarState === 'true',
+        theme: savedTheme,
+        isHydrated: true
+      })
+      
       document.documentElement.setAttribute('data-theme', savedTheme)
+    }
+  })
 
-      // Mark as hydrated to prevent layout shifts
-      setIsHydrated(true)
+  // Persist theme changes
+  createEffect(() => {
+    if (state.isHydrated && typeof window !== 'undefined') {
+      document.documentElement.setAttribute('data-theme', state.theme)
     }
   })
   
@@ -99,15 +107,15 @@ export function AppProvider(props: { children: JSX.Element }) {
   }
 
   const contextValue: AppContextValue = {
-    sidebarCollapsed,
+    sidebarCollapsed: state.sidebarCollapsed,
     setSidebarCollapsed: handleSetSidebarCollapsed,
-    sidebarOpen,
-    setSidebarOpen,
-    theme,
+    sidebarOpen: state.sidebarOpen,
+    setSidebarOpen: (open: boolean) => setState('sidebarOpen', open),
+    theme: state.theme,
     setTheme: handleSetTheme,
-    isHydrated,
-    showWidgetModal,
-    setShowWidgetModal,
+    isHydrated: state.isHydrated,
+    showWidgetModal: state.showWidgetModal,
+    setShowWidgetModal: (show: boolean) => setState('showWidgetModal', show),
     clearLayout,
     resetLayout,
     onClearLayout,
