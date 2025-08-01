@@ -1,24 +1,38 @@
 /* Dashboard Layout CSS Module */
 @import "tailwindcss";
 
+/* CSS Custom Properties for Layout Stability */
+:root {
+  --sidebar-width-expanded: 288px; /* w-72 = 18rem = 288px */
+  --sidebar-width-collapsed: 64px;  /* w-16 = 4rem = 64px */
+}
+
 /* Main Container */
 .container {
   @apply flex h-screen;
   background-color: var(--bg-secondary);
+  /* Prevent layout shifts during hydration */
+  contain: layout style;
 }
 
 /* Content Area */
 .contentArea {
-  @apply flex-1 flex flex-col transition-all duration-300 ease-in-out;
-  margin-left: 288px; /* Default sidebar width (w-72 = 18rem = 288px) */
+  @apply flex-1 flex flex-col;
+  /* Use CSS custom property for stability */
+  margin-left: var(--sidebar-width-expanded);
+  /* Smoother transitions with hardware acceleration */
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: margin-left;
+  /* Prevent layout recalculation */
+  contain: layout;
 }
 
 .contentAreaCollapsed {
-  margin-left: 64px; /* Collapsed sidebar width (w-16 = 4rem = 64px) */
+  margin-left: var(--sidebar-width-collapsed);
 }
 
 .contentAreaExpanded {
-  margin-left: 288px; /* Expanded sidebar width (w-72 = 18rem = 288px) */
+  margin-left: var(--sidebar-width-expanded);
 }
 
 /* Mobile Adjustments */
@@ -27,16 +41,41 @@
   .contentAreaCollapsed,
   .contentAreaExpanded {
     margin-left: 0;
+    /* Disable transitions on mobile for better performance */
+    transition: none;
+    will-change: auto;
   }
 }
 
 /* Inner Content */
 .innerContent {
   @apply flex-1 p-6 overflow-y-auto;
+  /* Prevent content jumping during layout changes */
+  contain: layout style;
 }
 
 @media (max-width: 640px) {
   .innerContent {
     @apply p-3;
+  }
+}
+
+/* Hydration stability - prevent flash of unstyled content */
+.container:not([data-hydrated]) .contentArea {
+  /* Use stable default during hydration */
+  margin-left: var(--sidebar-width-expanded);
+  transition: none;
+}
+
+/* Loading state to prevent layout shifts */
+@media (prefers-reduced-motion: no-preference) {
+  .contentArea {
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contentArea {
+    transition: none;
   }
 }

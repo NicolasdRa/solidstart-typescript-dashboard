@@ -1,4 +1,4 @@
-import { createEffect, Show } from 'solid-js'
+import { Show } from 'solid-js'
 import { Portal } from 'solid-js/web'
 import { A } from '@solidjs/router'
 import { useAppContext } from '../../contexts/AppContext'
@@ -14,18 +14,9 @@ interface DashboardSidebarProps {
 export default function DashboardSidebar(props: DashboardSidebarProps) {
   const appContext = useAppContext()
 
-  createEffect(() => {
-    // Load saved theme preference
-    const savedTheme = localStorage.getItem('dashboardTheme') || 'light'
-    appContext.setTheme(savedTheme)
-    document.documentElement.setAttribute('data-theme', savedTheme)
-  })
-
   const toggleTheme = () => {
     const newTheme = appContext.theme() === 'light' ? 'dark' : 'light'
     appContext.setTheme(newTheme)
-    localStorage.setItem('dashboardTheme', newTheme)
-    document.documentElement.setAttribute('data-theme', newTheme)
   }
 
   const menuItems = [

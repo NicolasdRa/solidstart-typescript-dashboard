@@ -15,20 +15,24 @@ interface DashboardLayoutProps {
 
 export default function DashboardLayout(props: DashboardLayoutProps) {
   const appContext = useAppContext()
+  
+  // Use stable layout during hydration to prevent shifts
+  const isCollapsed = appContext.isHydrated() ? appContext.sidebarCollapsed() : false
+  const isMobileOpen = appContext.isHydrated() ? appContext.sidebarOpen() : false
 
   return (
-    <div class={styles.container}>
+    <div class={styles.container} data-hydrated={appContext.isHydrated()}>
       {/* Sidebar Component */}
       <DashboardSidebar 
-        collapsed={appContext.sidebarCollapsed()}
+        collapsed={isCollapsed}
         onToggle={appContext.setSidebarCollapsed}
-        mobileOpen={appContext.sidebarOpen()}
+        mobileOpen={isMobileOpen}
         onMobileToggle={appContext.setSidebarOpen}
       />
       
       <div 
         class={`${styles.contentArea} ${
-          appContext.sidebarCollapsed() ? styles.contentAreaCollapsed : styles.contentAreaExpanded
+          isCollapsed ? styles.contentAreaCollapsed : styles.contentAreaExpanded
         }`}
       >        
         <div class={styles.innerContent}>

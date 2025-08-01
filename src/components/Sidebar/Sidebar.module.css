@@ -6,6 +6,17 @@
   @apply fixed left-0 top-0 h-screen shadow-lg z-40 flex flex-col;
   background-color: var(--bg-primary);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Prevent layout shifts during hydration */
+  contain: layout style;
+  will-change: width, transform;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .sidebar {
+    transition: none;
+    will-change: auto;
+  }
 }
 
 .sidebarMobileOpen {
