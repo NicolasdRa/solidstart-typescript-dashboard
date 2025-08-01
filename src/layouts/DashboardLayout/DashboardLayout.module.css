@@ -1,0 +1,42 @@
+/* Dashboard Layout CSS Module */
+@import "tailwindcss";
+
+/* Main Container */
+.container {
+  @apply flex h-screen;
+  background-color: var(--bg-secondary);
+}
+
+/* Content Area */
+.contentArea {
+  @apply flex-1 flex flex-col transition-all duration-300 ease-in-out;
+  margin-left: 288px; /* Default sidebar width (w-72 = 18rem = 288px) */
+}
+
+.contentAreaCollapsed {
+  margin-left: 64px; /* Collapsed sidebar width (w-16 = 4rem = 64px) */
+}
+
+.contentAreaExpanded {
+  margin-left: 288px; /* Expanded sidebar width (w-72 = 18rem = 288px) */
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .contentArea,
+  .contentAreaCollapsed,
+  .contentAreaExpanded {
+    margin-left: 0;
+  }
+}
+
+/* Inner Content */
+.innerContent {
+  @apply flex-1 p-6 overflow-y-auto;
+}
+
+@media (max-width: 640px) {
+  .innerContent {
+    @apply p-3;
+  }
+}

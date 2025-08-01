@@ -1,13 +1,10 @@
 import { createSignal, onMount, ErrorBoundary } from 'solid-js'
 import { Title, Meta } from '@solidjs/meta'
-import DashboardSidebar from "~/components/DashboardSidebar";
-import DashboardHeader from "~/components/DashboardHeader";
-import DashboardController from "~/components/DashboardController";
-import { useAppContext } from "~/contexts/AppContext";
+import DashboardContent from "~/components/DashboardContent/DashboardContent";
+import DashboardLayout from "~/layouts/DashboardLayout/DashboardLayout";
 import styles from './index.module.css';
 
 export default function Index() {
-  const appContext = useAppContext()
   const [currentLayout, setCurrentLayout] = createSignal('grid')
   const [isClient, setIsClient] = createSignal(false)
 
@@ -40,62 +37,41 @@ export default function Index() {
       <Meta name="twitter:title" content="Dashboard - SolidStart Dashboard" />
       <Meta name="twitter:description" content="Modern dashboard with customizable widgets, analytics, and layout options." />
       
-      <div class={styles.container}>
-      
-      {/* Sidebar Component */}
-      <DashboardSidebar 
-        currentPage="dashboard" 
-        collapsed={appContext.sidebarCollapsed()}
-        onToggle={appContext.setSidebarCollapsed}
-        mobileOpen={appContext.sidebarOpen()}
-        onMobileToggle={appContext.setSidebarOpen}
-      />
-      
-      <div 
-        class={`${styles.contentArea} ${
-          appContext.sidebarCollapsed() ? styles.contentAreaCollapsed : styles.contentAreaExpanded
-        }`}
-      >        
-        <div class={styles.innerContent}>
-          {/* Dashboard Header Component */}
-          <DashboardHeader 
-            title="Dashboard" 
-            subtitle="Welcome to your personalized workspace"
-            showControls={true}
-            currentLayout={currentLayout()}
-            onLayoutChange={handleLayoutChange}
-          />
-
-          {/* Dashboard Controller handles widgets */}
-          <ErrorBoundary 
-            fallback={(err, reset) => (
-              <div class={styles.errorContainer}>
-                <div class={styles.errorIcon}>🔧</div>
-                <h2 class={styles.errorTitle}>Dashboard Error</h2>
-                <p class={styles.errorMessage}>
-                  The dashboard encountered an error and couldn't load properly.
+      <DashboardLayout 
+        title="Dashboard"
+        subtitle="Welcome to your personalized workspace"
+        showControls={true}
+        currentLayout={currentLayout()}
+        onLayoutChange={handleLayoutChange}
+      >
+        {/* Dashboard Controller handles widgets */}
+        <ErrorBoundary 
+          fallback={(err, reset) => (
+            <div class={styles.errorContainer}>
+              <div class={styles.errorIcon}>🔧</div>
+              <h2 class={styles.errorTitle}>Dashboard Error</h2>
+              <p class={styles.errorMessage}>
+                The dashboard encountered an error and couldn't load properly.
+              </p>
+              <div class={styles.errorDetails}>
+                <button 
+                  onClick={reset}
+                  class={styles.errorButton}
+                >
+                  Reload Dashboard
+                </button>
+                <p class={styles.errorText}>
+                  Error: {err.message}
                 </p>
-                <div class={styles.errorDetails}>
-                  <button 
-                    onClick={reset}
-                    class={styles.errorButton}
-                  >
-                    Reload Dashboard
-                  </button>
-                  <p class={styles.errorText}>
-                    Error: {err.message}
-                  </p>
-                </div>
               </div>
-            )}
-          >
-            <DashboardController 
-              layout={currentLayout()}
-            />
-          </ErrorBoundary>
-        </div>
-      </div>
-      </div>
+            </div>
+          )}
+        >
+          <DashboardContent 
+            layout={currentLayout()}
+          />
+        </ErrorBoundary>
+      </DashboardLayout>
     </>
   )
 }

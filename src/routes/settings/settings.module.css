@@ -1,0 +1,78 @@
+/* Settings Route CSS Module */
+@import "tailwindcss";
+
+/* Settings Grid */
+.settingsGrid {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-5;
+}
+
+/* Settings Card */
+.settingsCard {
+  @apply rounded-xl shadow-sm p-6;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+}
+
+.cardTitle {
+  @apply text-lg font-semibold mb-4;
+  color: var(--text-primary);
+}
+
+/* Form Elements */
+.formGroup {
+  @apply space-y-4;
+}
+
+.label {
+  @apply block text-sm font-medium mb-1;
+  color: var(--text-secondary);
+}
+
+.input {
+  @apply w-full px-3 py-2 rounded-lg focus:outline-none focus:ring-2;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.input:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.select {
+  @apply w-full px-3 py-2 rounded-lg focus:outline-none focus:ring-2;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.select:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+/* Checkbox Settings */
+.checkboxGroup {
+  @apply space-y-4;
+}
+
+.checkboxLabel {
+  @apply flex items-center justify-between;
+}
+
+.checkboxText {
+  @apply text-sm;
+  color: var(--text-secondary);
+}
+
+.checkbox {
+  @apply w-4 h-4 rounded focus:ring-2;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--accent-color);
+}
+
+.checkbox:focus {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
