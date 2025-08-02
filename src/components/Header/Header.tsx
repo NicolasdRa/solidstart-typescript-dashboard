@@ -1,6 +1,5 @@
 import { useAppStore } from '~/stores/appStore'
 import { Show, createSignal, onMount, createMemo } from 'solid-js'
-import { Portal } from 'solid-js/web'
 import { useLocation } from '@solidjs/router'
 import styles from './Header.module.css'
 
@@ -136,9 +135,8 @@ export default function DashboardHeader() {
                   <span class={styles.dropdownIcon}>⋮</span>
                 </button>
                 
-                {/* Dropdown Menu */}
-                <Portal>
-                  <div class={styles.dropdownMenu}>
+                {/* Dropdown Menu - No Portal needed */}
+                <div class={styles.dropdownMenu}>
                   <button
                     onClick={handleResetLayout}
                     class={`${styles.dropdownItem} ${styles.dropdownItemDefault}`}
@@ -151,8 +149,7 @@ export default function DashboardHeader() {
                   >
                     Clear All Widgets
                   </button>
-                  </div>
-                </Portal>
+                </div>
               </div>
             </div>
           </div>

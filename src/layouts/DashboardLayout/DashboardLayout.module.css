@@ -16,26 +16,26 @@
   display: grid;
   grid-template-columns: var(--sidebar-width-expanded) 1fr;
   grid-template-areas: "sidebar content";
-  /* Dynamic height based on viewport */
+  /* Fixed height for desktop/tablets */
   height: 100vh;
-  min-height: 100vh;
+  max-height: 100vh;
   /* Ensure full available width */
   width: 100%;
-  min-width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
   /* Force layout stability */
   will-change: auto;
   backface-visibility: hidden;
 }
 
-/* Adaptive height for non-fullscreen scenarios */
+/* Desktop specific constraints */
 @media (min-width: 769px) {
   .container {
-    /* Use dynamic viewport height that adapts to window size */
+    /* Ensure exactly 100vh on desktop */
     height: 100vh;
-    min-height: 100vh;
     max-height: 100vh;
+    /* Clip any content that overflows, including dropdowns */
+    overflow: hidden;
+    position: relative;
   }
 }
 
@@ -57,6 +57,9 @@
   grid-area: content;
   width: 100%;
   height: 100%;
+  /* Create stacking context for proper dropdown positioning */
+  position: relative;
+  z-index: 1;
 }
 
 /* Mobile Adjustments */
@@ -84,9 +87,8 @@
   contain: layout style;
   /* Ensure content can expand to full width */
   width: 100%;
-  max-width: none;
   box-sizing: border-box;
-  /* Prevent FOUC by maintaining consistent content area */
+  /* Allow flexbox to shrink this area */
   min-height: 0;
   /* Smooth transitions for content changes */
   transition: opacity 150ms ease-in-out;

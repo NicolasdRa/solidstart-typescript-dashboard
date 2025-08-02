@@ -131,10 +131,13 @@
 }
 
 .dropdownMenu {
-  @apply absolute right-0 mt-2 w-48 rounded-lg shadow-lg border py-2 opacity-0 invisible transition-all duration-200 z-10;
+  @apply absolute right-0 w-48 rounded-lg shadow-lg border py-2 opacity-0 invisible transition-all duration-200 z-10;
   background-color: var(--bg-primary);
   border-color: var(--border-color);
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  /* Always position below the trigger */
+  top: 100%;
+  margin-top: 0.5rem;
 }
 
 .dropdownContainer:hover .dropdownMenu {
