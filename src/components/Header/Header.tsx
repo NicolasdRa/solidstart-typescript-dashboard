@@ -4,7 +4,13 @@ import { useLocation } from '@solidjs/router'
 import styles from './Header.module.css'
 
 // Route configuration for header content
-const routeConfig = {
+type RouteConfig = {
+  title: string
+  subtitle: string
+  showControls: boolean
+}
+
+const routeConfig: Record<string, RouteConfig> = {
   '/': {
     title: 'Dashboard',
     subtitle: 'Welcome to your personalized workspace',
