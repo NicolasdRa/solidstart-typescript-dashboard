@@ -3,7 +3,8 @@
 
 /* Main Container */
 .container {
-  @apply mb-8;
+  /* Add bottom margin to separate from content */
+  @apply mb-6;
 }
 
 /* Header Section */

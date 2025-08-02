@@ -34,11 +34,13 @@ export default function DashboardLayout(props: DashboardLayoutProps) {
       />
       
       <div class={styles.contentArea}>
-        <div class={styles.innerContent}>
-          {/* Dashboard Header Component */}
+        {/* Fixed Dashboard Header Component */}
+        <div class={styles.headerSection}>
           <Header />
+        </div>
 
-          {/* Page Content */}
+        {/* Scrollable Page Content */}
+        <div class={styles.innerContent}>
           {props.children}
         </div>
       </div>

@@ -60,6 +60,8 @@
   /* Create stacking context for proper dropdown positioning */
   position: relative;
   z-index: 1;
+  /* Prevent overflow from the grid container */
+  overflow: hidden;
 }
 
 /* Mobile Adjustments */
@@ -80,23 +82,39 @@
   }
 }
 
-/* Inner Content */
+/* Fixed Header Section */
+.headerSection {
+  /* Fixed header that doesn't scroll */
+  flex-shrink: 0;
+  @apply p-6 pb-0;
+  width: 100%;
+  box-sizing: border-box;
+  /* Ensure header stays on top */
+  position: relative;
+  z-index: 2;
+}
+
+/* Scrollable Inner Content */
 .innerContent {
-  @apply flex-1 p-6 overflow-y-auto;
+  @apply flex-1 px-6 pb-6 overflow-y-auto;
   /* Prevent content jumping during layout changes */
   contain: layout style;
   /* Ensure content can expand to full width */
   width: 100%;
   box-sizing: border-box;
-  /* Allow flexbox to shrink this area */
+  /* Allow flexbox to shrink this area for proper scrolling */
   min-height: 0;
   /* Smooth transitions for content changes */
   transition: opacity 150ms ease-in-out;
 }
 
 @media (max-width: 640px) {
+  .headerSection {
+    @apply p-3 pb-0;
+  }
+  
   .innerContent {
-    @apply p-3;
+    @apply px-3 pb-3;
   }
 }
 
