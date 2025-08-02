@@ -1,5 +1,5 @@
 /* DashboardWidget CSS Module */
-@import "tailwindcss";
+@import "tailwindcss" reference;
 
 /* Widget Container */
 .widget {

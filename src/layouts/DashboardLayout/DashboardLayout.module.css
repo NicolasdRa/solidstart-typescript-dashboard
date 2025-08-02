@@ -1,5 +1,5 @@
 /* Dashboard Layout CSS Module */
-@import "tailwindcss";
+@import "tailwindcss" reference;
 
 /* CSS Custom Properties for Layout Stability */
 :root {

@@ -1,5 +1,5 @@
 /* SecurityWidget CSS Module */
-@import "tailwindcss";
+@import "tailwindcss" reference;
 
 /* Container */
 .container {

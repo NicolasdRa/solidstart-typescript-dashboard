@@ -1,5 +1,5 @@
 /* DashboardHeader CSS Module */
-@import "tailwindcss";
+@import "tailwindcss" reference;
 
 /* Main Container */
 .container {

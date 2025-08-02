@@ -1,5 +1,5 @@
 /* ProfileController CSS Module */
-@import "tailwindcss";
+@import "tailwindcss" reference;
 
 /* Main Grid Layout */
 .grid {

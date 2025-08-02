@@ -1,5 +1,5 @@
 /* 404 Not Found Route CSS Module */
-@import "tailwindcss";
+@import "tailwindcss" reference;
 
 /* Main Container */
 .container {

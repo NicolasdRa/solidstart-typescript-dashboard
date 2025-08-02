@@ -1,5 +1,5 @@
 /* Index Route CSS Module */
-@import "tailwindcss";
+@import "tailwindcss" reference;
 
 /* Error State */
 .errorContainer {

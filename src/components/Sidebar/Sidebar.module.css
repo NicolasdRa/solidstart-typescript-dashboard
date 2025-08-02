@@ -1,5 +1,5 @@
 /* DashboardSidebar CSS Module */
-@import "tailwindcss";
+@import "tailwindcss" reference;
 
 /* Main Container */
 .sidebar {
