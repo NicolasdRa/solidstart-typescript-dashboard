@@ -1,25 +1,48 @@
 import { useAppStore } from '~/stores/appStore'
-import { Show } from 'solid-js'
+import { Show, createSignal, onMount, createMemo } from 'solid-js'
 import { Portal } from 'solid-js/web'
+import { useLocation } from '@solidjs/router'
 import styles from './Header.module.css'
 
-interface DashboardHeaderProps {
-  title: string
-  subtitle: string
-  showControls: boolean
-  currentLayout: string
-  onLayoutChange: (layout: string) => void
+// Route configuration for header content
+const routeConfig = {
+  '/': {
+    title: 'Dashboard',
+    subtitle: 'Welcome to your personalized workspace',
+    showControls: true
+  },
+  '/profile': {
+    title: 'Profile Settings',
+    subtitle: 'Manage your account and preferences',
+    showControls: false
+  },
+  '/analytics': {
+    title: 'Analytics',
+    subtitle: 'View your data insights and metrics',
+    showControls: false
+  },
+  '/settings': {
+    title: 'Settings',
+    subtitle: 'Configure your application settings',
+    showControls: false
+  }
 }
 
-export default function DashboardHeader(props: DashboardHeaderProps) {
+export default function DashboardHeader() {
   const { state, actions } = useAppStore()
+  const location = useLocation()
+
+  // Get current route config
+  const currentRoute = createMemo(() => {
+    return routeConfig[location.pathname] || routeConfig['/']
+  })
 
   const handleAddWidget = () => {
     actions.setShowWidgetModal(true)
   }
 
-  const handleLayoutChange = (layout: string) => {
-    props.onLayoutChange(layout)
+  const handleLayoutChange = (layout: 'grid' | 'list' | 'masonry') => {
+    actions.setDashboardLayout(layout)
   }
 
   const handleClearLayout = () => {
@@ -51,19 +74,19 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
           </button>
           
           <div class={styles.titleSection}>
-            <h1 class={styles.title}>{props.title}</h1>
-            <p class={styles.subtitle}>{props.subtitle}</p>
+            <h1 class={styles.title}>{currentRoute().title}</h1>
+            <p class={styles.subtitle}>{currentRoute().subtitle}</p>
           </div>
         </div>
         
-        <Show when={props.showControls}>
+        <Show when={currentRoute().showControls}>
           <div class={styles.controls}>
             {/* Layout Controls */}
             <div class={styles.layoutControls}>
               <button
                 onClick={() => handleLayoutChange('grid')}
                 class={`${styles.layoutButton} ${
-                  props.currentLayout === 'grid'
+                  state.dashboardLayout === 'grid'
                     ? styles.layoutButtonActive
                     : styles.layoutButtonInactive
                 }`}
@@ -75,7 +98,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
               <button
                 onClick={() => handleLayoutChange('list')}
                 class={`${styles.layoutButton} ${
-                  props.currentLayout === 'list'
+                  state.dashboardLayout === 'list'
                     ? styles.layoutButtonActive
                     : styles.layoutButtonInactive
                 }`}
@@ -87,7 +110,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
               <button
                 onClick={() => handleLayoutChange('masonry')}
                 class={`${styles.layoutButton} ${
-                  props.currentLayout === 'masonry'
+                  state.dashboardLayout === 'masonry'
                     ? styles.layoutButtonActive
                     : styles.layoutButtonInactive
                 }`}

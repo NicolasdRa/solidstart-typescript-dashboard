@@ -1,48 +1,42 @@
-import { JSX } from 'solid-js'
-import DashboardSidebar from '~/components/Sidebar/Sidebar'
-import DashboardHeader from '~/components/Header/Header'
+import { JSX, createSignal, onMount } from 'solid-js'
+import { isServer } from 'solid-js/web'
+import Sidebar from '~/components/Sidebar/Sidebar'
+import Header from '~/components/Header/Header'
 import { useAppStore } from '~/stores/appStore'
 import styles from './DashboardLayout.module.css'
 
 interface DashboardLayoutProps {
   children: JSX.Element
-  title?: string
-  subtitle?: string
-  showControls?: boolean
-  currentLayout?: string
-  onLayoutChange?: (layout: string) => void
 }
 
 export default function DashboardLayout(props: DashboardLayoutProps) {
   const { state, actions } = useAppStore()
+  const [mounted, setMounted] = createSignal(false)
+
+  onMount(() => {
+    setMounted(true)
+  })
 
   return (
     <div 
       class={styles.container} 
-      data-hydrated={state.isHydrated}
       classList={{
-        [styles.containerCollapsed]: state.isHydrated && state.sidebarCollapsed,
-        [styles.containerExpanded]: !state.isHydrated || !state.sidebarCollapsed
+        [styles.containerCollapsed]: mounted() && state.sidebarCollapsed,
+        [styles.containerExpanded]: !mounted() || !state.sidebarCollapsed
       }}
     >
       {/* Sidebar Component */}
-      <DashboardSidebar 
-        collapsed={state.isHydrated ? state.sidebarCollapsed : false}
+      <Sidebar 
+        collapsed={mounted() ? state.sidebarCollapsed : false}
         onToggle={actions.setSidebarCollapsed}
-        mobileOpen={state.isHydrated ? state.sidebarOpen : false}
+        mobileOpen={mounted() ? state.sidebarOpen : false}
         onMobileToggle={actions.setSidebarOpen}
       />
       
       <div class={styles.contentArea}>
         <div class={styles.innerContent}>
           {/* Dashboard Header Component */}
-          <DashboardHeader 
-            title={props.title || 'Dashboard'} 
-            subtitle={props.subtitle || 'Welcome to your workspace'}
-            showControls={props.showControls ?? false}
-            currentLayout={props.currentLayout || ''}
-            onLayoutChange={props.onLayoutChange || (() => {})}
-          />
+          <Header />
 
           {/* Page Content */}
           {props.children}

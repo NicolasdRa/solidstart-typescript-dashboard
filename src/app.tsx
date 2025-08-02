@@ -1,7 +1,7 @@
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
 import { Suspense, ErrorBoundary } from "solid-js";
-import { MetaProvider, Title, Meta } from "@solidjs/meta";
+import { MetaProvider, Title, Meta, Link } from "@solidjs/meta";
 import StoreInitializer from "./components/StoreInitializer";
 import "./app.css";
 

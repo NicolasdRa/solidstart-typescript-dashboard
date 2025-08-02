@@ -1,5 +1,4 @@
 import SEO from '~/components/SEO/SEO'
-import DashboardLayout from '~/layouts/DashboardLayout/DashboardLayout'
 import styles from './settings.module.css'
 
 export default function Settings() {
@@ -11,11 +10,7 @@ export default function Settings() {
         path="/settings"
       />
       
-      <DashboardLayout 
-        title="Settings"
-        subtitle="Configure your application settings"
-      >
-        <div class={styles.settingsGrid}>
+      <div class={styles.settingsGrid}>
           <div class={styles.settingsCard}>
             <h3 class={styles.cardTitle}>General Settings</h3>
             <div class={styles.formGroup}>
@@ -56,7 +51,6 @@ export default function Settings() {
             </div>
           </div>
         </div>
-      </DashboardLayout>
     </>
   )
 }

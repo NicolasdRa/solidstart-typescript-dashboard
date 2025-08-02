@@ -2,7 +2,6 @@ import { onMount } from 'solid-js'
 import SEO from '~/components/SEO/SEO'
 import DashboardErrorBoundary from '~/components/ErrorBoundary/DashboardErrorBoundary'
 import ProfileContent from '~/components/ProfileContent/ProfileContent'
-import DashboardLayout from '~/layouts/DashboardLayout/DashboardLayout'
 
 export default function Profile() {
   onMount(() => {
@@ -17,18 +16,13 @@ export default function Profile() {
         path="/profile"
       />
       
-      <DashboardLayout 
-        title="Profile Settings"
-        subtitle="Manage your account and preferences"
+      <DashboardErrorBoundary
+        fallbackIcon="👤"
+        fallbackTitle="Profile Error"
+        fallbackMessage="Unable to load profile information."
       >
-        <DashboardErrorBoundary
-          fallbackIcon="👤"
-          fallbackTitle="Profile Error"
-          fallbackMessage="Unable to load profile information."
-        >
-          <ProfileContent />
-        </DashboardErrorBoundary>
-      </DashboardLayout>
+        <ProfileContent />
+      </DashboardErrorBoundary>
     </>
   )
 }

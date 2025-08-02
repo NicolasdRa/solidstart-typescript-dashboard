@@ -1,4 +1,5 @@
-import { onMount } from 'solid-js'
+
+import { isServer } from 'solid-js/web'
 import { appActions } from '~/stores/appStore'
 
 /**
@@ -7,10 +8,10 @@ import { appActions } from '~/stores/appStore'
  * proper hydration and state persistence
  */
 export default function StoreInitializer() {
-  onMount(() => {
-    // Initialize the app store with persisted state
-    appActions.initializeApp()
-  })
+  // Initialize client state immediately on the client
+  if (!isServer) {
+    appActions.initializeClientState()
+  }
 
   // This component doesn't render anything
   return null

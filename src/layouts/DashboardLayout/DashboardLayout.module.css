@@ -86,6 +86,10 @@
   width: 100%;
   max-width: none;
   box-sizing: border-box;
+  /* Prevent FOUC by maintaining consistent content area */
+  min-height: 0;
+  /* Smooth transitions for content changes */
+  transition: opacity 150ms ease-in-out;
 }
 
 @media (max-width: 640px) {
@@ -94,11 +98,8 @@
   }
 }
 
-/* Hydration stability - prevent flash of unstyled content */
-.container:not([data-hydrated]) {
-  /* Use stable default during hydration */
-  grid-template-columns: var(--sidebar-width-expanded) 1fr;
-}
+/* SSR stability - prevent flash of unstyled content */
+/* Default to expanded state during SSR/initial render */
 
 /* Responsive behavior */
 @media (prefers-reduced-motion: reduce) {

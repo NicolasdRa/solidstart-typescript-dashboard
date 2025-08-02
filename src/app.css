@@ -168,6 +168,11 @@ body {
   50% { transform: translateY(-5px); }
 }
 
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 /* Prevent layout shifts during sidebar transitions */
 .sidebar-transition {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

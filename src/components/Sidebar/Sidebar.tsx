@@ -4,14 +4,14 @@ import { A } from '@solidjs/router'
 import { useAppStore } from '~/stores/appStore'
 import styles from './Sidebar.module.css'
 
-interface DashboardSidebarProps {
+interface SidebarProps {
   collapsed: boolean
   onToggle: (collapsed: boolean) => void
   mobileOpen: boolean
   onMobileToggle: (open: boolean) => void
 }
 
-export default function DashboardSidebar(props: DashboardSidebarProps) {
+export default function Sidebar(props: SidebarProps) {
   const { state, actions } = useAppStore()
 
   const toggleTheme = () => {

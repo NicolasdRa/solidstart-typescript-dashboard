@@ -1,5 +1,6 @@
 import { createStore } from 'solid-js/store'
-import { createEffect, onMount } from 'solid-js'
+import { createEffect } from 'solid-js'
+import { isServer } from 'solid-js/web'
 
 // Define the app state interface
 interface AppState {
@@ -7,7 +8,7 @@ interface AppState {
   sidebarOpen: boolean
   theme: 'light' | 'dark'
   showWidgetModal: boolean
-  isHydrated: boolean
+  dashboardLayout: 'grid' | 'list' | 'masonry'
 }
 
 // Initialize the global store with SSR-safe defaults
@@ -16,7 +17,7 @@ const [appState, setAppState] = createStore<AppState>({
   sidebarOpen: false,
   theme: 'light',
   showWidgetModal: false,
-  isHydrated: false
+  dashboardLayout: 'grid'
 })
 
 // Dashboard action callbacks for widget management
@@ -30,7 +31,7 @@ export const appActions = {
   // Sidebar actions
   setSidebarCollapsed: (collapsed: boolean) => {
     setAppState('sidebarCollapsed', collapsed)
-    if (appState.isHydrated && typeof window !== 'undefined') {
+    if (!isServer) {
       localStorage.setItem('sidebarCollapsed', String(collapsed))
     }
   },
@@ -42,7 +43,7 @@ export const appActions = {
   // Theme actions
   setTheme: (theme: 'light' | 'dark') => {
     setAppState('theme', theme)
-    if (appState.isHydrated && typeof window !== 'undefined') {
+    if (!isServer) {
       localStorage.setItem('dashboardTheme', theme)
       document.documentElement.setAttribute('data-theme', theme)
     }
@@ -51,6 +52,14 @@ export const appActions = {
   // Modal actions
   setShowWidgetModal: (show: boolean) => {
     setAppState('showWidgetModal', show)
+  },
+
+  // Dashboard layout actions
+  setDashboardLayout: (layout: 'grid' | 'list' | 'masonry') => {
+    setAppState('dashboardLayout', layout)
+    if (!isServer) {
+      localStorage.setItem('dashboardLayout', layout)
+    }
   },
 
   // Dashboard actions
@@ -75,17 +84,18 @@ export const appActions = {
     dashboardCallbacks.resetLayout = callback
   },
 
-  // Hydration management
-  initializeApp: () => {
-    if (typeof window !== 'undefined') {
-      // Load saved states synchronously to prevent flashes
+  // Initialize client state
+  initializeClientState: () => {
+    if (!isServer) {
+      // Load saved states from localStorage
       const savedSidebarState = localStorage.getItem('sidebarCollapsed')
       const savedTheme = localStorage.getItem('dashboardTheme') || 'light'
+      const savedLayout = localStorage.getItem('dashboardLayout') || 'grid'
       
       setAppState({
         sidebarCollapsed: savedSidebarState === 'true',
         theme: savedTheme as 'light' | 'dark',
-        isHydrated: true
+        dashboardLayout: savedLayout as 'grid' | 'list' | 'masonry'
       })
       
       document.documentElement.setAttribute('data-theme', savedTheme)
@@ -96,13 +106,10 @@ export const appActions = {
 // Export the store state (read-only)
 export { appState }
 
-// Auto-initialize theme on hydration
-if (typeof window !== 'undefined') {
-  // Set up theme reactive effect
+// Set up theme reactive effect on client only
+if (!isServer) {
   createEffect(() => {
-    if (appState.isHydrated) {
-      document.documentElement.setAttribute('data-theme', appState.theme)
-    }
+    document.documentElement.setAttribute('data-theme', appState.theme)
   })
 }
 
