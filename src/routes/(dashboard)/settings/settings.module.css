@@ -1,8 +1,15 @@
 /* Settings Route CSS Module */
+@import "tailwindcss" reference;
 
 /* Settings Grid */
 .settingsGrid {
-  @apply grid grid-cols-1 lg:grid-cols-2 gap-5;
+  @apply grid grid-cols-1 gap-5;
+}
+
+@media (min-width: 1024px) {
+  .settingsGrid {
+    @apply grid-cols-2;
+  }
 }
 
 /* Settings Card */

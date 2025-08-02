@@ -1,8 +1,21 @@
 /* Analytics Route CSS Module */
+@import "tailwindcss" reference;
 
 /* Analytics Grid */
 .analyticsGrid {
-  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+  @apply grid grid-cols-1 gap-6;
+}
+
+@media (min-width: 768px) {
+  .analyticsGrid {
+    @apply grid-cols-2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .analyticsGrid {
+    @apply grid-cols-3;
+  }
 }
 
 /* Analytics Card */

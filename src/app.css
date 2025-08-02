@@ -2,6 +2,13 @@
 
 /* Custom theme configuration for Tailwind CSS v4 */
 @theme {
+  /* Breakpoints */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  
   /* Primary colors (blue) */
   --color-primary-50: #eff6ff;
   --color-primary-100: #dbeafe;
