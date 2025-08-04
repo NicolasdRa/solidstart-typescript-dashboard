@@ -6,6 +6,7 @@ export default defineConfig({
   //   preset: process.env.NODE_ENV === "development" ? "node" : "netlify"
   // },
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()], 
+    ssr: { external: ["drizzle-orm"] }
   }
 });
