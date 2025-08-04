@@ -1,5 +1,8 @@
-# Use Node.js 18 Alpine for smaller image size
-FROM node:18-alpine
+# Use Node.js 22 Alpine for smaller image size
+FROM node:22-alpine
+
+# Install Python and build dependencies for better-sqlite3
+RUN apk add --no-cache python3 make g++ py3-pip
 
 # Set working directory
 WORKDIR /app
@@ -7,8 +10,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install ALL dependencies (including dev) for the build step
+RUN npm ci
 
 # Copy source code
 COPY . .
@@ -18,6 +21,9 @@ RUN mkdir -p /app/data
 
 # Build the application
 RUN npm run build
+
+# Remove dev dependencies after build
+RUN npm prune --omit=dev
 
 # Expose the port Railway will use
 EXPOSE 3000
