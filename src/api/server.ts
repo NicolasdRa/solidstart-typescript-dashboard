@@ -74,11 +74,11 @@ export async function logout() {
 }
 
 export async function getUser() {
-  const session = await getSession();
-  const userId = session.data.userId;
-  if (userId === undefined) throw redirect("/login");
-
   try {
+    const session = await getSession();
+    const userId = session.data.userId;
+    if (userId === undefined) throw redirect("/login");
+
     const user = db.select().from(Users).where(eq(Users.id, userId)).get();
     if (!user) throw redirect("/login");
     
@@ -111,8 +111,8 @@ export async function getUser() {
       updatedAt: user.updatedAt,
       lastPasswordChange: user.lastPasswordChange,
     };
-  } catch {
-    throw logout();
+  } catch (error) {
+    throw redirect("/login");
   }
 }
 
