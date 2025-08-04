@@ -16,11 +16,11 @@ RUN npm ci
 # Copy source code
 COPY . .
 
-# Create data directory for SQLite database
-RUN mkdir -p /app/data
-
 # Build the application
 RUN npm run build
+
+# Create data directory for SQLite database (this will be overridden by Railway's volume)
+RUN mkdir -p /app/data
 
 # Remove dev dependencies after build
 RUN npm prune --omit=dev
@@ -31,5 +31,9 @@ EXPOSE 3000
 # Set environment to production
 ENV NODE_ENV=production
 
-# Start the application
-CMD ["npm", "start"]
+# Copy startup script
+COPY scripts/start.sh /app/scripts/
+RUN chmod +x /app/scripts/start.sh
+
+# Start the application with initialization check
+CMD ["/app/scripts/start.sh"]
