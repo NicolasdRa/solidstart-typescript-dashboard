@@ -6,13 +6,22 @@ import { dirname, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Check if we're in production and if database exists
-const dbPath = process.env.DATABASE_PATH || '/app/data/database.db';
+// Check database path based on environment
+const getDbPath = () => {
+  if (process.env.DATABASE_PATH) {
+    return process.env.DATABASE_PATH;
+  }
+  // Development path
+  const projectRoot = join(__dirname, '..');
+  return join(projectRoot, 'drizzle', 'db.sqlite');
+};
+
+const dbPath = getDbPath();
 const isProduction = process.env.NODE_ENV === 'production';
 
 async function ensureDatabase() {
-  if (isProduction && !existsSync(dbPath)) {
-    console.log('Production database not found. Initializing...');
+  if (!existsSync(dbPath)) {
+    console.log(`Database not found at ${dbPath}. Initializing...`);
     
     // Run the init script
     const initScript = join(__dirname, 'init-prod-db.js');
@@ -32,7 +41,7 @@ async function ensureDatabase() {
       });
     });
   } else {
-    console.log('Database already exists or not in production mode');
+    console.log(`Database exists at ${dbPath}`);
   }
 }
 
