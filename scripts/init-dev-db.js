@@ -45,19 +45,19 @@ db.exec(`
     website TEXT DEFAULT '',
     language TEXT DEFAULT 'en',
     timezone TEXT DEFAULT 'America/Los_Angeles',
-    emailNotifications INTEGER DEFAULT 1,
-    pushNotifications INTEGER DEFAULT 0,
-    marketingEmails INTEGER DEFAULT 0,
-    theme TEXT DEFAULT 'light',
-    displayDensity TEXT DEFAULT 'comfortable',
-    dashboardLayout TEXT DEFAULT 'grid',
-    sidebarCollapsed INTEGER DEFAULT 0,
-    enableAnimations INTEGER DEFAULT 1,
-    enableSounds INTEGER DEFAULT 0,
-    autoSave INTEGER DEFAULT 1,
-    createdAt TEXT DEFAULT (datetime('now')),
-    updatedAt TEXT DEFAULT (datetime('now')),
-    lastPasswordChange TEXT DEFAULT NULL
+    email_notifications INTEGER DEFAULT 1,
+    push_notifications INTEGER DEFAULT 0,
+    marketing_emails INTEGER DEFAULT 0,
+    theme TEXT DEFAULT 'system',
+    display_density TEXT DEFAULT 'comfortable',
+    dashboard_layout TEXT DEFAULT 'grid',
+    sidebar_collapsed INTEGER DEFAULT 0,
+    enable_animations INTEGER DEFAULT 1,
+    enable_sounds INTEGER DEFAULT 0,
+    auto_save INTEGER DEFAULT 1,
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT DEFAULT (datetime('now')),
+    last_password_change TEXT DEFAULT NULL
   )
 `);
 
