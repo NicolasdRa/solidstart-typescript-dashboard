@@ -9,6 +9,34 @@ interface AppState {
   theme: 'light' | 'dark'
   showWidgetModal: boolean
   dashboardLayout: 'grid' | 'list' | 'masonry'
+  user: {
+    id: number
+    username: string
+    // Profile information
+    name: string
+    email: string
+    bio: string
+    location: string
+    website: string
+    // Account settings
+    language: string
+    timezone: string
+    emailNotifications: boolean
+    pushNotifications: boolean
+    marketingEmails: boolean
+    // UI Preferences
+    theme: string
+    displayDensity: string
+    dashboardLayout: string
+    sidebarCollapsed: boolean
+    enableAnimations: boolean
+    enableSounds: boolean
+    autoSave: boolean
+    // System fields
+    createdAt?: string
+    updatedAt?: string
+    lastPasswordChange?: string
+  } | null
 }
 
 // Initialize the global store with SSR-safe defaults
@@ -17,7 +45,8 @@ const [appState, setAppState] = createStore<AppState>({
   sidebarOpen: false,
   theme: 'light',
   showWidgetModal: false,
-  dashboardLayout: 'grid'
+  dashboardLayout: 'grid',
+  user: null
 })
 
 // Dashboard action callbacks for widget management
@@ -82,6 +111,11 @@ export const appActions = {
 
   onResetLayout: (callback: () => void) => {
     dashboardCallbacks.resetLayout = callback
+  },
+
+  // User actions
+  setUser: (user: { id: number; username: string } | null) => {
+    setAppState('user', user)
   },
 
   // Initialize client state

@@ -259,45 +259,202 @@
   @apply font-medium truncate min-w-0 flex-1 text-left;
 }
 
+/* User Container */
+.userContainer {
+  @apply relative;
+}
+
 .userProfile {
-  @apply flex items-center rounded-lg h-16 w-full;
+  @apply flex items-center rounded-lg h-16 w-full transition-all duration-200 cursor-pointer text-left;
+  background-color: transparent;
+  border: none;
+  /* Ensure proper alignment */
+  justify-content: flex-start;
+}
+
+.userProfile:hover {
+  background-color: var(--bg-tertiary);
+  /* Subtle transform for better feedback */
+  transform: translateY(-1px);
+}
+
+.userProfile:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+  background-color: var(--bg-tertiary);
+}
+
+.userProfile:active {
+  transform: translateY(0);
+}
+
+.userProfileActive {
+  background-color: var(--bg-tertiary);
 }
 
 .userProfileMobile {
-  @apply gap-3 px-4 overflow-hidden;
+  @apply gap-3 px-4;
+  /* Remove overflow-hidden to prevent text cutoff */
 }
 
 .userProfileCollapsed {
-  @apply px-3 justify-center;
+  @apply px-3;
+  justify-content: center;
+  /* Ensure avatar is centered when collapsed */
+  position: relative;
 }
 
 .userProfileExpanded {
-  @apply gap-3 px-4 overflow-hidden;
+  @apply gap-3 px-4;
+  /* Remove overflow-hidden to prevent text cutoff */
 }
 
 .userAvatar {
-  @apply rounded-full flex items-center justify-center text-white font-medium flex-shrink-0;
+  @apply rounded-full flex items-center justify-center text-white font-semibold flex-shrink-0;
   background-color: var(--accent-color);
+  /* Ensure consistent sizing and alignment */
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 }
 
 .userAvatarLarge {
-  @apply w-10 h-10;
+  @apply w-10 h-10 text-sm;
+  /* Ensure font size is appropriate for the avatar size */
 }
 
 .userAvatarSmall {
-  @apply w-8 h-8 text-sm;
+  @apply w-8 h-8 text-xs;
+  /* Slightly smaller font for compact view */
 }
 
 .userInfo {
-  @apply flex-1 min-w-0;
+  @apply flex-1 min-w-0 flex flex-col justify-center;
+  /* Ensure text aligns to the left */
+  text-align: left;
+  line-height: 1.2;
 }
 
 .userName {
-  @apply text-sm font-medium truncate leading-tight;
+  @apply text-sm font-semibold truncate;
   color: var(--text-primary);
+  margin: 0;
+  /* Ensure consistent spacing */
+  margin-bottom: 2px;
 }
 
 .userEmail {
-  @apply text-xs truncate leading-tight;
+  @apply text-xs truncate;
   color: var(--text-secondary);
+  margin: 0;
+  /* Slightly more muted for better hierarchy */
+  opacity: 0.8;
+}
+
+/* User Chevron */
+.userChevron {
+  @apply flex-shrink-0 ml-auto pl-2;
+  /* Align to the right side */
+  display: flex;
+  align-items: center;
+}
+
+.chevronIcon {
+  @apply w-4 h-4 transition-transform duration-200;
+  color: var(--text-secondary);
+}
+
+.chevronIconRotated {
+  transform: rotate(180deg);
+}
+
+/* User Dropdown */
+.userDropdown {
+  @apply absolute bottom-full mb-2 rounded-lg shadow-lg border py-2 z-50;
+  background-color: var(--bg-primary);
+  border-color: var(--border-color);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  animation: dropdownSlideUp 0.2s ease-out;
+}
+
+.userDropdownMobile {
+  @apply left-4 right-4;
+}
+
+.userDropdownCollapsed {
+  @apply left-0 w-64;
+}
+
+.userDropdownExpanded {
+  @apply left-0 right-0;
+}
+
+.dropdownContent {
+  @apply w-full;
+}
+
+.dropdownHeader {
+  @apply px-4 py-3;
+}
+
+.dropdownUserInfo {
+  @apply space-y-1;
+  text-align: left;
+}
+
+.dropdownUserName {
+  @apply text-sm font-semibold;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.dropdownUserId {
+  @apply text-xs;
+  color: var(--text-secondary);
+  margin: 0;
+  opacity: 0.8;
+}
+
+.dropdownDivider {
+  @apply h-px my-2 mx-2;
+  background-color: var(--border-color);
+}
+
+.dropdownLogoutButton {
+  @apply w-full px-4 py-2 text-left flex items-center gap-3 transition-colors duration-200 hover:bg-red-50;
+  color: var(--error-color);
+}
+
+.dropdownLogoutButton:disabled {
+  @apply cursor-not-allowed opacity-75;
+}
+
+.dropdownLogoutButton:disabled:hover {
+  background-color: transparent;
+}
+
+[data-theme="dark"] .dropdownLogoutButton:hover:not(:disabled) {
+  background-color: #7f1d1d;
+}
+
+.dropdownLogoutIcon {
+  @apply w-4 h-4 flex-shrink-0;
+}
+
+.dropdownLogoutText {
+  @apply text-sm font-medium;
+}
+
+.logoutSpinner {
+  @apply w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin;
+}
+
+/* Dropdown Animation */
+@keyframes dropdownSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

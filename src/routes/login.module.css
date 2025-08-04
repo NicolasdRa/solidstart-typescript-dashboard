@@ -1,0 +1,187 @@
+/* Login Page CSS Module */
+@import "tailwindcss" reference;
+
+/* Main Container */
+.container {
+  @apply min-h-screen flex items-center justify-center p-4;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+}
+
+/* Login Card */
+.loginCard {
+  @apply w-full max-w-md p-8 rounded-2xl shadow-xl border;
+  background-color: var(--bg-primary);
+  border-color: var(--border-color);
+  backdrop-filter: blur(10px);
+}
+
+/* Header Section */
+.header {
+  @apply text-center mb-8;
+}
+
+.title {
+  @apply text-3xl font-bold mb-2;
+  color: var(--text-primary);
+}
+
+.subtitle {
+  @apply text-lg;
+  color: var(--text-secondary);
+}
+
+/* Form Styles */
+.form {
+  @apply space-y-6;
+}
+
+/* Login Type Toggle */
+.loginTypeToggle {
+  @apply flex rounded-lg border p-1 mb-6;
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+}
+
+.toggleOption {
+  @apply flex-1 text-center py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer;
+  color: var(--text-secondary);
+}
+
+.toggleOption input {
+  @apply sr-only;
+}
+
+.toggleOption input:checked + .toggleLabel {
+  background-color: var(--accent-color);
+  color: white;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+.toggleOption:hover {
+  color: var(--text-primary);
+}
+
+.toggleLabel {
+  @apply transition-all duration-200;
+}
+
+/* Form Fields */
+.formGroup {
+  @apply space-y-2;
+}
+
+.label {
+  @apply block text-sm font-medium;
+  color: var(--text-primary);
+}
+
+.input {
+  @apply w-full px-4 py-3 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  background-color: var(--bg-primary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.input:focus {
+  border-color: var(--accent-color);
+  --tw-ring-color: var(--accent-color);
+  --tw-ring-opacity: 0.3;
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Submit Button */
+.submitButton {
+  @apply w-full py-3 px-4 rounded-lg font-medium text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  background-color: var(--accent-color);
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px -2px rgb(59 130 246 / 0.5);
+}
+
+.submitButton:focus {
+  --tw-ring-color: var(--accent-color);
+  --tw-ring-opacity: 0.5;
+}
+
+.submitButton:disabled {
+  background-color: var(--text-muted);
+}
+
+/* Loading State */
+.loading {
+  @apply inline-flex items-center gap-2;
+}
+
+.spinner {
+  @apply w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin;
+}
+
+/* Error Message */
+.errorMessage {
+  @apply mt-4 p-3 rounded-lg border;
+  background-color: #fef2f2;
+  border-color: #fecaca;
+  color: var(--error-color);
+}
+
+.errorIcon {
+  @apply inline-block w-4 h-4 mr-2;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .loginCard {
+    @apply p-6 mx-4;
+  }
+  
+  .title {
+    @apply text-2xl;
+  }
+}
+
+/* Dark Mode Support */
+[data-theme="dark"] .errorMessage {
+  background-color: #7f1d1d;
+  border-color: #991b1b;
+  color: #fca5a5;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.loginCard {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Focus indicators for accessibility */
+.input:focus,
+.submitButton:focus,
+.toggleOption:focus-within {
+  outline: none;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .loginCard {
+    border-width: 2px;
+  }
+  
+  .input {
+    border-width: 2px;
+  }
+}

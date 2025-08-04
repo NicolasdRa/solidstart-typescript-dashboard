@@ -1,29 +1,42 @@
-import { createSignal } from 'solid-js'
+import { createSignal, createMemo, createEffect } from 'solid-js'
+import { useAppStore } from '~/stores/appStore'
+import { updateAccountSettings } from '~/api'
+import { useSubmission } from '@solidjs/router'
 import styles from './AccountSettingsWidget.module.css'
 
 export default function AccountSettingsWidget() {
-  const [settings, setSettings] = createSignal({
-    language: 'en',
-    timezone: 'America/Los_Angeles',
-    emailNotifications: true,
-    pushNotifications: false,
-    marketingEmails: false
-  })
+  const { state } = useAppStore()
+  const updating = useSubmission(updateAccountSettings)
+  
+  // Get settings from user data with defaults
+  const settings = createMemo(() => ({
+    language: state.user?.language || 'en',
+    timezone: state.user?.timezone || 'America/Los_Angeles',
+    emailNotifications: state.user?.emailNotifications ?? true,
+    pushNotifications: state.user?.pushNotifications ?? false,
+    marketingEmails: state.user?.marketingEmails ?? false
+  }))
 
-  const handleToggle = (key: string) => {
-    setSettings(prev => ({ ...prev, [key]: !prev[key as keyof typeof prev] }))
-  }
+  // Handle successful form submission
+  createEffect(() => {
+    if (updating.result && !updating.pending) {
+      if (updating.result.success) {
+        // Force refresh user data
+        window.location.reload()
+      }
+    }
+  })
 
   return (
     <div class={styles.container}>
       <h3 class={styles.title}>Account Settings</h3>
       
-      <div class={styles.content}>
+      <form action={updateAccountSettings} method="post" class={styles.content}>
         <div class={styles.fieldGroup}>
           <label class={styles.fieldLabel}>Language</label>
           <select 
+            name="language"
             value={settings().language}
-            onChange={(e) => setSettings(prev => ({ ...prev, language: e.currentTarget.value }))}
             class={styles.fieldSelect}
           >
             <option value="en">English</option>
@@ -36,8 +49,8 @@ export default function AccountSettingsWidget() {
         <div class={styles.fieldGroup}>
           <label class={styles.fieldLabel}>Timezone</label>
           <select 
+            name="timezone"
             value={settings().timezone}
-            onChange={(e) => setSettings(prev => ({ ...prev, timezone: e.currentTarget.value }))}
             class={styles.fieldSelect}
           >
             <option value="America/New_York">Eastern Time</option>
@@ -53,9 +66,10 @@ export default function AccountSettingsWidget() {
           <label class={styles.toggleLabel}>
             <span class={styles.toggleText}>Email notifications</span>
             <input 
+              name="emailNotifications"
               type="checkbox"
+              value="true"
               checked={settings().emailNotifications}
-              onChange={() => handleToggle('emailNotifications')}
               class={styles.toggleCheckbox}
             />
           </label>
@@ -63,9 +77,10 @@ export default function AccountSettingsWidget() {
           <label class={styles.toggleLabel}>
             <span class={styles.toggleText}>Push notifications</span>
             <input 
+              name="pushNotifications"
               type="checkbox"
+              value="true"
               checked={settings().pushNotifications}
-              onChange={() => handleToggle('pushNotifications')}
               class={styles.toggleCheckbox}
             />
           </label>
@@ -73,18 +88,19 @@ export default function AccountSettingsWidget() {
           <label class={styles.toggleLabel}>
             <span class={styles.toggleText}>Marketing emails</span>
             <input 
+              name="marketingEmails"
               type="checkbox"
+              value="true"
               checked={settings().marketingEmails}
-              onChange={() => handleToggle('marketingEmails')}
               class={styles.toggleCheckbox}
             />
           </label>
         </div>
 
-        <button class={styles.saveButton}>
-          Save Settings
+        <button type="submit" class={styles.saveButton} disabled={updating.pending}>
+          {updating.pending ? 'Saving...' : 'Save Settings'}
         </button>
-      </div>
+      </form>
     </div>
   )
 }

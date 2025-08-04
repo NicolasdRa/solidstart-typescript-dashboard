@@ -123,3 +123,10 @@
 .fieldGrid {
   @apply grid grid-cols-1 md:grid-cols-2 gap-4;
 }
+
+/* Placeholder text for empty fields */
+.placeholder {
+  @apply italic;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
