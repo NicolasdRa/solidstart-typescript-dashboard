@@ -31,9 +31,5 @@ EXPOSE 3000
 # Set environment to production
 ENV NODE_ENV=production
 
-# Copy startup script
-COPY scripts/start.sh /app/scripts/
-RUN chmod +x /app/scripts/start.sh
-
-# Start the application with initialization check
-CMD ["/app/scripts/start.sh"]
+# Start the application
+CMD ["npm", "start"]
