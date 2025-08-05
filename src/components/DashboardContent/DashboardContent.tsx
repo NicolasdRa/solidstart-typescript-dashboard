@@ -12,6 +12,7 @@ import ModelViewerWidget from '../widgets/ModelViewerWidget/ModelViewerWidget'
 import NotesWidget from '../widgets/NotesWidget/NotesWidget'
 import TodoWidget from '../widgets/TodoWidget/TodoWidget'
 import WeatherWidget from '../widgets/WeatherWidget/WeatherWidget'
+import GraphQLDataWidget from '../widgets/GraphQLDataWidget/GraphQLDataWidget'
 import { WidgetConfig, WidgetType } from '~/types/widget'
 
 interface DashboardContentProps {
@@ -33,7 +34,8 @@ export default function DashboardContent(props: DashboardContentProps) {
     'activity-widget': ActivityWidget,
     'calendar-widget': CalendarWidget,
     'todo-widget': TodoWidget,
-    'model-viewer-widget': ModelViewerWidget
+    'model-viewer-widget': ModelViewerWidget,
+    'graphql-data-widget': GraphQLDataWidget
   }
 
   const widgetTypes: WidgetType[] = [
@@ -45,7 +47,8 @@ export default function DashboardContent(props: DashboardContentProps) {
     { type: 'clock-widget', icon: '🕒', name: 'Clock' },
     { type: 'notes-widget', icon: '📝', name: 'Notes' },
     { type: 'todo-widget', icon: '✅', name: 'Todo List' },
-    { type: 'model-viewer-widget', icon: '🚀', name: 'Model Viewer' }
+    { type: 'model-viewer-widget', icon: '🚀', name: 'Model Viewer' },
+    { type: 'graphql-data-widget', icon: '🔗', name: 'GraphQL Data' }
   ]
 
   onMount(() => {

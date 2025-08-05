@@ -1,0 +1,310 @@
+/* GraphQLDataWidget CSS Module */
+@import "tailwindcss" reference;
+
+/* Container */
+.container {
+  @apply rounded-xl shadow-sm border p-6 flex flex-col relative;
+  background-color: var(--bg-primary);
+  border-color: var(--border-color);
+  height: 400px; /* Reduced height */
+  width: 100%; /* Take available width */
+  max-width: 600px; /* Increased maximum width */
+  min-width: 400px;
+  min-height: 300px;
+  position: relative;
+  overflow: hidden; /* Contain the resize handle within rounded borders */
+  container-type: inline-size; /* Enable container queries */
+}
+
+.container.resizing {
+  user-select: none;
+  cursor: nw-resize;
+}
+
+/* Header */
+.header {
+  @apply mb-4;
+}
+
+.title {
+  @apply text-xl font-semibold;
+  color: var(--text-primary);
+}
+
+.subtitle {
+  @apply text-sm;
+  color: var(--text-secondary);
+}
+
+/* Loading State */
+.loading {
+  @apply flex flex-col items-center justify-center py-12;
+}
+
+.spinner {
+  @apply w-8 h-8 border-2 border-current border-t-transparent rounded-full animate-spin;
+  color: var(--accent-color);
+}
+
+.loading p {
+  @apply mt-3 text-sm;
+  color: var(--text-secondary);
+}
+
+/* Error State */
+.error {
+  @apply flex flex-col items-center justify-center py-12 text-center;
+}
+
+.error p {
+  @apply mb-3;
+  color: var(--text-secondary);
+}
+
+.retryButton {
+  @apply px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200;
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.retryButton:hover {
+  background-color: var(--accent-hover);
+}
+
+/* Content */
+.content {
+  @apply flex-1 flex flex-col overflow-hidden;
+}
+
+/* Scroll Container */
+.scrollContainer {
+  @apply flex-1 overflow-x-auto overflow-y-auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+
+.scrollContainer::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.scrollContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 4px;
+}
+
+/* Character Card */
+.characterCard {
+  @apply mb-3 p-3 rounded-lg border;
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+}
+
+.characterCard:last-child {
+  @apply mb-0;
+}
+
+/* Character Info */
+.characterInfo {
+  @apply mb-2;
+}
+
+.characterName {
+  @apply text-lg font-semibold mb-1;
+  color: var(--text-primary);
+}
+
+.characterMeta {
+  @apply flex items-center gap-3;
+}
+
+/* Image Row */
+.imageRow {
+  @apply flex flex-wrap gap-3 pb-2;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+/* Image Container */
+.imageContainer {
+  @apply flex-shrink-0 text-center;
+}
+
+.image {
+  @apply rounded-lg shadow-sm border transition-transform duration-200;
+  border-color: var(--border-color);
+}
+
+.image:hover {
+  transform: scale(1.05);
+}
+
+.imageLabel {
+  @apply block mt-2 text-xs font-medium;
+  color: var(--text-muted);
+}
+
+/* Responsive image layout based on container width */
+@container (min-width: 500px) {
+  .imageRow {
+    gap: 4px;
+  }
+}
+
+@container (min-width: 700px) {
+  .imageRow {
+    gap: 5px;
+  }
+}
+
+.status {
+  @apply px-2 py-0.5 text-xs rounded-full font-medium;
+}
+
+.status.alive {
+  @apply bg-green-100 text-green-800;
+}
+
+[data-theme="dark"] .status.alive {
+  @apply bg-green-900 text-green-200;
+}
+
+.status.dead {
+  @apply bg-red-100 text-red-800;
+}
+
+[data-theme="dark"] .status.dead {
+  @apply bg-red-900 text-red-200;
+}
+
+.status.unknown {
+  @apply bg-gray-100 text-gray-800;
+}
+
+[data-theme="dark"] .status.unknown {
+  @apply bg-gray-800 text-gray-300;
+}
+
+.species {
+  @apply text-xs;
+  color: var(--text-secondary);
+}
+
+.episodes {
+  @apply text-xs;
+  color: var(--text-muted);
+}
+
+/* Pagination */
+.pagination {
+  @apply flex items-center justify-between mt-4 pt-4 border-t;
+  border-color: var(--border-color);
+}
+
+.paginationButton {
+  @apply px-3 py-1.5 text-sm font-medium rounded-lg transition-colors duration-200;
+  color: var(--accent-color);
+}
+
+.paginationButton:hover:not(:disabled) {
+  background-color: var(--bg-secondary);
+}
+
+.paginationButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pageInfo {
+  @apply text-sm;
+  color: var(--text-secondary);
+}
+
+/* Resize Handle */
+.resizeHandle {
+  @apply absolute bottom-0 right-0 w-4 h-4 cursor-nw-resize;
+  background: linear-gradient(135deg, transparent 50%, var(--bg-primary) 50%);
+  border-top-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  transition: all 0.2s ease;
+  box-shadow: 
+    inset 1px 1px 2px rgba(255, 255, 255, 0.1),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.1),
+    2px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.resizeHandle:hover {
+  background: linear-gradient(135deg, transparent 50%, var(--bg-secondary) 50%);
+  box-shadow: 
+    inset 1px 1px 3px rgba(255, 255, 255, 0.15),
+    inset -1px -1px 3px rgba(0, 0, 0, 0.15),
+    3px 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+.resizeHandle:active {
+  box-shadow: 
+    inset 2px 2px 4px rgba(0, 0, 0, 0.2),
+    inset -1px -1px 2px rgba(255, 255, 255, 0.05),
+    1px 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.resizeGrip {
+  @apply absolute inset-0 flex flex-wrap content-center justify-center;
+  gap: 1px;
+  padding: 2px;
+}
+
+.gripDot {
+  @apply w-0.5 h-0.5 rounded-full;
+  background-color: var(--text-muted);
+  opacity: 0.6;
+  transition: all 0.2s ease;
+  box-shadow: 
+    0.5px 0.5px 1px rgba(255, 255, 255, 0.4),
+    -0.5px -0.5px 1px rgba(0, 0, 0, 0.2);
+}
+
+.resizeHandle:hover .gripDot {
+  opacity: 0.9;
+  box-shadow: 
+    0.5px 0.5px 1.5px rgba(255, 255, 255, 0.5),
+    -0.5px -0.5px 1.5px rgba(0, 0, 0, 0.3);
+}
+
+.resizeHandle:active .gripDot {
+  box-shadow: 
+    inset 0.5px 0.5px 1px rgba(0, 0, 0, 0.3),
+    inset -0.5px -0.5px 1px rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    min-width: 100%;
+    height: 400px;
+  }
+  
+  .imageRow {
+    @apply gap-2;
+  }
+  
+  .characterName {
+    @apply text-base;
+  }
+  
+  .resizeHandle {
+    @apply w-5 h-5;
+  }
+  
+  .resizeGrip {
+    padding: 3px;
+  }
+  
+  .gripDot {
+    @apply w-1 h-1;
+  }
+}
